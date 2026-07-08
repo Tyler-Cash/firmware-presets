@@ -9244,7 +9244,7 @@
     },
     {
       "fullPath": "presets/4.5/other/tyler_rc_link_and_features.txt",
-      "hash": "5a166d2b8668f0c3f2c5db0cb45376ab3a5483efd3a783670296949b7a8deb66",
+      "hash": "c74f784ddda495959f5c12db9ed5b5c58b90825f6df84376281408c0c795b109",
       "title": "Tyler's RC link, features and failsafe behavior",
       "firmware_version": [
         "4.5"
@@ -10831,7 +10831,7 @@
     },
     {
       "fullPath": "presets/4.5/vtx/tyler_vtx_table.txt",
-      "hash": "0cf90d08c8583565b037c6442ae1612a6b2c3ef9766b0aaa9d0ce3ef75f126e9",
+      "hash": "02aa02fe89ea3487aa247238acf100404cc4760ff59efb88ce06197976c121a3",
       "title": "Tyler's VTX table",
       "firmware_version": [
         "4.5"

@@ -8,6 +8,7 @@
 #$ DESCRIPTION: Feature flags are reset to their firmware defaults first, then my standard set is enabled on top, so this always leaves a fully known feature configuration regardless of what was configured before.
 #$ DESCRIPTION: Deliberately excludes anything board/wiring-specific (UART assignments, SPI bus numbers, beeper pin polarity) since those vary craft to craft.
 #$ DESCRIPTION: Also deliberately leaves the RX_SPI/RX_SERIAL feature bits and rx_spi_protocol untouched: whether a craft has an onboard RX-SPI receiver chip or an external serial receiver is a board choice, and forcing either one here would break whichever craft doesn't match. Set those per-craft.
+#$ DESCRIPTION: Also leaves RSSI_ADC untouched: ELRS/CRSF report RSSI over telemetry and don't need it, but some receivers instead output RSSI as an analog voltage on its own wire, which does need this feature - whether that applies is a receiver-wiring fact per craft, not a preference.
 
 # feature
 feature -RX_PPM
@@ -21,7 +22,6 @@ feature -TELEMETRY
 feature -3D
 feature -RX_PARALLEL_PWM
 feature -RX_MSP
-feature -RSSI_ADC
 feature -LED_STRIP
 feature -DISPLAY
 feature -OSD

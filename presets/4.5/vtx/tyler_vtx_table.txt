@@ -4,8 +4,8 @@
 #$ STATUS: COMMUNITY
 #$ KEYWORDS: tyler, vtx, vtxtable, analog, personal
 #$ AUTHOR: Tyler Cash
-#$ DESCRIPTION: My standard analog VTX frequency/power table so every analog craft exposes the same band/channel/power naming in Configurator and on the OSD. Not applicable to HDZero builds, which don't use an RF vtxtable at all - see the OSD preset's HDZero/Analog NTSC display option instead.
-#$ DESCRIPTION: This only sets the table and general VTX behavior - it deliberately does NOT set vtx_band/vtx_channel/vtx_power/vtx_freq, since the active channel is chosen per-flight, and does NOT set vtx_spi_bus, since that's board wiring, not a preference.
+#$ DESCRIPTION: My standard analog VTX frequency/band table so every analog craft exposes the same band/channel naming in Configurator and on the OSD. Not applicable to HDZero builds, which don't use an RF vtxtable at all - see the OSD preset's HDZero/Analog NTSC display option instead.
+#$ DESCRIPTION: This only sets the band/frequency table and general VTX behavior - it deliberately does NOT set the power table (vtxtable powerlevels/powervalues/powerlabels), since those are raw register codes specific to each VTX chip, not a portable preference: two different analog VTX modules can use completely different power-level codes for a similarly-labelled output. It also does NOT set vtx_band/vtx_channel/vtx_power/vtx_freq, since the active channel is chosen per-flight, and does NOT set vtx_spi_bus, since that's board wiring, not a preference.
 #$ DESCRIPTION: vtx_low_power_disarm is set to UNTIL_FIRST_ARM: on power-up the VTX stays at low/default power (safe at the pits) until the first arm, then it switches to and stays at full power even across later disarms, until the next power cycle. (The ALWAYS option instead drops back to low power on every single disarm, which is usually not what people want.)
 #$ DISCLAIMER: The information provided in these presets is for educational and entertainment purposes only. Betaflight makes no representations as to the safety or legality of the use of any information provided herein. End users assume all responsibility and liability for ensuring they comply with all relevant laws and regulations. Using these VTX tables may be in breach of your local RF laws. You as the end user must research and comply with your local regulations. In using these presets, the user assumes any and all liability associated with breaching local regulations.
 
@@ -17,9 +17,6 @@ vtxtable band 2 BOSCAM B B CUSTOM  5733 5752 5771 5790 5809 5828 5847 5866
 vtxtable band 3 BOSCAM E E CUSTOM  5705 5685 5665    0 5885 5905    0    0
 vtxtable band 4 FATSHARK F CUSTOM  5740 5760 5780 5800 5820 5840 5860 5880
 vtxtable band 5 RACEBAND R CUSTOM  5658 5695 5732 5769 5806 5843 5880 5917
-vtxtable powerlevels 3
-vtxtable powervalues 0 1 2
-vtxtable powerlabels 25 100 MAX
 
 set vtx_low_power_disarm = UNTIL_FIRST_ARM
 set vtx_softserial_alt = OFF
