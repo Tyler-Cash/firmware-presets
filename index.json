@@ -8967,10 +8967,11 @@
     },
     {
       "fullPath": "presets/4.5/leds/tyler_led_layout.txt",
-      "hash": "1e23ec402eb57d0dd6a8771eefe299b61be78dc21741474f19038808adcb79d4",
+      "hash": "bb4fe7dbf2b7cf18d443a2d5cfe7bfc1e840db6b57082b4d56c7886c236af9dc",
       "title": "Tyler's LED strip layout and colors",
       "firmware_version": [
-        "4.5"
+        "4.5",
+        "2025.12"
       ],
       "category": "LEDS",
       "status": "COMMUNITY",
@@ -9078,10 +9079,11 @@
     },
     {
       "fullPath": "presets/4.5/osd/tyler_osd_layout.txt",
-      "hash": "8c43d2bd0bd753dfb17727c86c1cf2f61d19713929e37d2a77f725b9e8eac43c",
+      "hash": "76a0d94b1548ea039ba547f393ad17d37e586703a4829f8974b15aba29ac0b3d",
       "title": "Tyler's standard OSD layout",
       "firmware_version": [
-        "4.5"
+        "4.5",
+        "2025.12"
       ],
       "category": "OSD",
       "status": "COMMUNITY",
@@ -9244,10 +9246,11 @@
     },
     {
       "fullPath": "presets/4.5/other/tyler_rc_link_and_features.txt",
-      "hash": "cc071c30a030c070e9d5ad32b0091e08609d1d81e4d800aff270c930eac6034b",
+      "hash": "3f6346e18baa4541b20c21cdaf2ae6153a034abe8374f7ead0f223d90037509f",
       "title": "Tyler's RC link, features and failsafe behavior",
       "firmware_version": [
-        "4.5"
+        "4.5",
+        "2025.12"
       ],
       "category": "OTHER",
       "status": "COMMUNITY",
@@ -10831,10 +10834,11 @@
     },
     {
       "fullPath": "presets/4.5/vtx/tyler_vtx_table.txt",
-      "hash": "02aa02fe89ea3487aa247238acf100404cc4760ff59efb88ce06197976c121a3",
+      "hash": "9691821df0589b4fe46e653611ec844b045a03b7113ccf0ce5a50005afcadc1e",
       "title": "Tyler's VTX table",
       "firmware_version": [
-        "4.5"
+        "4.5",
+        "2025.12"
       ],
       "category": "VTX",
       "status": "COMMUNITY",
