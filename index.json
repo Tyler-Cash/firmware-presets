@@ -9244,7 +9244,7 @@
     },
     {
       "fullPath": "presets/4.5/other/tyler_rc_link_and_features.txt",
-      "hash": "c74f784ddda495959f5c12db9ed5b5c58b90825f6df84376281408c0c795b109",
+      "hash": "cc071c30a030c070e9d5ad32b0091e08609d1d81e4d800aff270c930eac6034b",
       "title": "Tyler's RC link, features and failsafe behavior",
       "firmware_version": [
         "4.5"
