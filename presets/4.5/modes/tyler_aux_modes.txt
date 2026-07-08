@@ -1,26 +1,30 @@
 #$ TITLE: Tyler's standard AUX/mode switch layout
 #$ FIRMWARE_VERSION: 4.5
+#$ FIRMWARE_VERSION: 2025.12
 #$ CATEGORY: MODES
 #$ STATUS: COMMUNITY
-#$ KEYWORDS: tyler, aux, modes, arm, horizon, telemetry, personal
+#$ KEYWORDS: tyler, aux, modes, arm, angle, althold, poshold, turtle, crashflip, ledlow, beeper, personal
 #$ AUTHOR: Tyler Cash
 #$ DESCRIPTION: My personal switch layout, applied to every quad in my fleet so arming and mode behavior feel identical no matter which craft I'm flying.
 #$ DESCRIPTION: AUX1 high (1900-2100) = ARM.
-#$ DESCRIPTION: AUX3 is a 3-position switch: low (1075-1225) = Telemetry, mid (1400-1600) = Horizon, high = Acro (no extra mode).
-#$ DESCRIPTION: Every other AUX slot (including AUX2) is explicitly reset to disabled so this preset always leaves a clean, fully-known mode setup regardless of what was configured before. AUX2 was carrying a USER4/custom-mode assignment on one craft, but since that's wired per-craft (e.g. to a programming-framework rule or PINIO specific to that build) rather than a fleet-wide preference, it's left out here - set it up per-craft if needed.
+#$ DESCRIPTION: AUX7 is a 3-position switch: low (900-1224) = Position Hold, mid (1225-1650) = Angle, high (1700-2100) = Altitude Hold. Position Hold and Altitude Hold are inert on craft without GPS/baro - harmless, just unused.
+#$ DESCRIPTION: AUX8 low (900-1025) = LEDLOW (dims/disables the LED strip in flight).
+#$ DESCRIPTION: AUX2 high (1700-2100) = Turtle / Flip-over-after-crash.
+#$ DESCRIPTION: The beeper auto-confirms mode changes: it beeps on entering Turtle, Angle, Altitude Hold, or Failsafe, and it auto-mutes whenever LEDLOW is engaged (so going stealthy also goes quiet).
+#$ DESCRIPTION: Every other AUX slot is explicitly reset to disabled so this preset always leaves a clean, fully-known mode setup regardless of what was configured before.
 
 # aux
 aux 0 0 0 1900 2100 0 0
-aux 1 2 2 1400 1600 0 0
-aux 2 15 2 1075 1225 0 0
-aux 3 0 0 900 900 0 0
-aux 4 0 0 900 900 0 0
-aux 5 0 0 900 900 0 0
-aux 6 0 0 900 900 0 0
-aux 7 0 0 900 900 0 0
-aux 8 0 0 900 900 0 0
-aux 9 0 0 900 900 0 0
-aux 10 0 0 900 900 0 0
+aux 1 11 6 900 1224 0 0
+aux 2 1 6 1225 1650 0 0
+aux 3 3 6 1700 2100 0 0
+aux 4 13 0 900 900 0 35
+aux 5 13 0 900 900 0 1
+aux 6 13 0 900 900 0 3
+aux 7 13 0 900 900 0 27
+aux 8 15 7 900 1025 0 0
+aux 9 35 1 1700 2100 0 0
+aux 10 52 0 900 900 0 15
 aux 11 0 0 900 900 0 0
 aux 12 0 0 900 900 0 0
 aux 13 0 0 900 900 0 0
