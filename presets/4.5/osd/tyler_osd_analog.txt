@@ -9,10 +9,11 @@
 #$ DESCRIPTION: Link Quality is positioned to be visible at a glance (a firm requirement on analog, where I can't rely on extra HD system telemetry), and the beeper warning is on for both this and the HDZero variant.
 #$ DESCRIPTION: osd_rssi_dbm_alarm is provided as a packet-rate option below rather than a fixed value, since the right alarm threshold depends on the ELRS air rate configured on that craft's receiver, not on Betaflight or on pilot preference. Each option is ExpressLRS's own sensitivity floor for that rate plus an 8dB margin (within their recommended 5-10dB), so the alarm gives useful advance warning instead of firing right at the point packets actually start dropping.
 #$ DESCRIPTION: Deliberately excludes anything craft/hardware specific: ESC and FC-core-temp alarms (depend on the ESC/FC fitted) and osd_cap_alarm (depends on the battery pack used).
-#$ DESCRIPTION: Hardcodes osd_displayport_device to MAX7456 and the canvas to 30x13: MAX7456's character buffer is physically 30 columns, so leaving canvas at the firmware's 53x20 default (as my craft is currently doing post-upgrade) would clip/corrupt the OSD render on real hardware.
+#$ DESCRIPTION: Hardcodes osd_displayport_device to MAX7456 and the canvas to 30x13: MAX7456's character buffer is physically 30 columns, so leaving canvas at the firmware's 53x20 default (as my craft is currently doing post-upgrade) would clip/corrupt the OSD render on real hardware. Note: osd_canvas_width/height are only real CLI settings on 4.5 - on 2025.12+ they're compiled out of normal firmware builds (OSD_CANVAS_SIZE_DEBUG-gated) and applying them is a harmless no-op, since canvas size is now auto-negotiated with the display device instead.
+#$ DESCRIPTION: The RSSI dBm number is hidden (osd_rssi_dbm_pos stays at the hidden default) - the RSSI_DBM warning flag is on in osd_warn_bitmask instead, so a warning banner fires at the alarm threshold rather than showing a constant readout.
 
 set osd_units = METRIC
-set osd_warn_bitmask = 471037
+set osd_warn_bitmask = 503805
 set osd_rssi_alarm = 20
 set osd_link_quality_alarm = 70
 set osd_rsnr_alarm = 4

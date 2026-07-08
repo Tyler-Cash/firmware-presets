@@ -9080,7 +9080,7 @@
     },
     {
       "fullPath": "presets/4.5/osd/tyler_osd_analog.txt",
-      "hash": "96c563f1d7948ec37cf6036c9ec40b8d546c2187773e954388d8b7b81f00ac6a",
+      "hash": "57164e8ebe5191d60174420553feeb4e4a8b0932a49b08c30712ee198dded961",
       "title": "Tyler's analog NTSC OSD layout",
       "firmware_version": [
         "4.5",
@@ -9103,7 +9103,7 @@
     },
     {
       "fullPath": "presets/4.5/osd/tyler_osd_hdzero.txt",
-      "hash": "19e62e538ad7349554000e37ba6ecf6cca3537add68b38f877d0167da28c4ca1",
+      "hash": "82431f2e7c85400efd369204d4f79bd6caf725919a7b3d51453d993ad33074d0",
       "title": "Tyler's HDZero OSD layout",
       "firmware_version": [
         "4.5",

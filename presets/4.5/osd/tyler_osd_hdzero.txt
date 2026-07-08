@@ -8,7 +8,8 @@
 #$ DESCRIPTION: My HDZero OSD layout - captured from my actual Flywoo Flybee16 config. HDZero's bigger 53x20 canvas and MSP system telemetry leave room for more info than the analog variant, so this includes VTX bitrate and VTX temperature readouts on top of the shared basics.
 #$ DESCRIPTION: Link Quality and the beeper warning are both on, matching the analog variant.
 #$ DESCRIPTION: Deliberately excludes anything craft/hardware specific: ESC and FC-core-temp alarms (depend on the ESC/FC fitted) and osd_cap_alarm (depends on the battery pack used).
-#$ DESCRIPTION: Hardcodes osd_displayport_device to MSP and the canvas to 53x20, HDZero's native size.
+#$ DESCRIPTION: Hardcodes osd_displayport_device to MSP and the canvas to 53x20, HDZero's native size. Note: osd_canvas_width/height are only real CLI settings on 4.5 - on 2025.12+ they're compiled out of normal firmware builds (OSD_CANVAS_SIZE_DEBUG-gated) and applying them is a harmless no-op, since canvas size is now auto-negotiated with the display device instead.
+#$ DESCRIPTION: The RSSI dBm number is hidden (osd_rssi_dbm_pos set to the hidden default) rather than shown on my real craft's layout - the RSSI_DBM warning flag in osd_warn_bitmask fires a banner at the alarm threshold instead of a constant readout.
 #$ DESCRIPTION: Doesn't position osd_core_temp_pos (FC temperature) even though there's screen room for it on HD - I don't have a known-good coordinate for it without risking overlapping another element. Position it via Configurator's OSD tab and export a fresh diff if you want it added here.
 #$ DESCRIPTION: osd_rssi_dbm_alarm is provided as a packet-rate option below rather than a fixed value, since the right alarm threshold depends on the ELRS air rate configured on that craft's receiver, not on Betaflight or on pilot preference. Each option is ExpressLRS's own sensitivity floor for that rate plus an 8dB margin (within their recommended 5-10dB).
 
@@ -30,7 +31,7 @@ set osd_vbat_pos = 576
 set osd_rssi_pos = 512
 set osd_link_quality_pos = 2464
 set osd_link_tx_power_pos = 341
-set osd_rssi_dbm_pos = 2432
+set osd_rssi_dbm_pos = 341
 set osd_rsnr_pos = 341
 set osd_tim_1_pos = 2656
 set osd_tim_2_pos = 321
