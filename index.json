@@ -8962,7 +8962,7 @@
     },
     {
       "fullPath": "presets/4.5/leds/tyler_led_layout.txt",
-      "hash": "09a279cdaa640fc01105a82e879471d66ef8794278d4dcb22ed849faaa4296ef",
+      "hash": "1e23ec402eb57d0dd6a8771eefe299b61be78dc21741474f19038808adcb79d4",
       "title": "Tyler's LED strip layout and colors",
       "firmware_version": [
         "4.5"
@@ -8982,7 +8982,7 @@
     },
     {
       "fullPath": "presets/4.5/modes/tyler_aux_modes.txt",
-      "hash": "05caca1d64a975d8dbe002d8a3436a72829511f35d7aacea9a7e848fbb99b812",
+      "hash": "f62be6a34fb316f15cdb884e8b69a90d633939ca495e2299805551f6784b230a",
       "title": "Tyler's standard AUX/mode switch layout",
       "firmware_version": [
         "4.5"
@@ -9067,7 +9067,7 @@
     },
     {
       "fullPath": "presets/4.5/osd/tyler_osd_layout.txt",
-      "hash": "fa3ed2acb3985bb0a99f82de7429068c1dba4935942bf3df8d52928cd09c8283",
+      "hash": "8c43d2bd0bd753dfb17727c86c1cf2f61d19713929e37d2a77f725b9e8eac43c",
       "title": "Tyler's standard OSD layout",
       "firmware_version": [
         "4.5"
@@ -9233,7 +9233,7 @@
     },
     {
       "fullPath": "presets/4.5/other/tyler_rc_link_and_features.txt",
-      "hash": "b0ff1036aab5c52eab3e159f882b13cf05ee88f9658d6e642ddd58241c01361c",
+      "hash": "5a166d2b8668f0c3f2c5db0cb45376ab3a5483efd3a783670296949b7a8deb66",
       "title": "Tyler's RC link, features and failsafe behavior",
       "firmware_version": [
         "4.5"
@@ -10820,7 +10820,7 @@
     },
     {
       "fullPath": "presets/4.5/vtx/tyler_vtx_table.txt",
-      "hash": "af9249091429385a4aa7abb581044827c704f301389f3eb98dc6fdb643bef652",
+      "hash": "0cf90d08c8583565b037c6442ae1612a6b2c3ef9766b0aaa9d0ce3ef75f126e9",
       "title": "Tyler's VTX table",
       "firmware_version": [
         "4.5"

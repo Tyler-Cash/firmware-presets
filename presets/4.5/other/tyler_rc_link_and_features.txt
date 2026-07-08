@@ -7,12 +7,11 @@
 #$ DESCRIPTION: My standard receiver protocol, feature flags and failsafe behavior, so every craft on ELRS/CRSF behaves the same way if the link is lost.
 #$ DESCRIPTION: Feature flags are reset to their firmware defaults first, then my standard set is enabled on top, so this always leaves a fully known feature configuration regardless of what was configured before.
 #$ DESCRIPTION: Deliberately excludes anything board/wiring-specific (UART assignments, SPI bus numbers, beeper pin polarity) since those vary craft to craft.
-#$ DESCRIPTION: If a craft doesn't have an onboard RX-SPI receiver, the rx_spi_protocol line below is simply ignored by that target.
+#$ DESCRIPTION: Also deliberately leaves the RX_SPI/RX_SERIAL feature bits and rx_spi_protocol untouched: whether a craft has an onboard RX-SPI receiver chip or an external serial receiver is a board choice, and forcing either one here would break whichever craft doesn't match. Set those per-craft.
 
 # feature
 feature -RX_PPM
 feature -INFLIGHT_ACC_CAL
-feature -RX_SERIAL
 feature -MOTOR_STOP
 feature -SERVO_TILT
 feature -SOFTSERIAL
@@ -29,21 +28,18 @@ feature -OSD
 feature -CHANNEL_FORWARDING
 feature -TRANSPONDER
 feature -AIRMODE
-feature -RX_SPI
 feature -ESC_SENSOR
 feature -ANTI_GRAVITY
 feature TELEMETRY
 feature LED_STRIP
 feature OSD
 feature AIRMODE
-feature RX_SPI
 feature ANTI_GRAVITY
 
 # RC link
 set serialrx_provider = CRSF
 set serialrx_inverted = OFF
 set serialrx_halfduplex = OFF
-set rx_spi_protocol = EXPRESSLRS
 set rx_min_usec = 885
 set rx_max_usec = 2115
 set airmode_start_throttle_percent = 25

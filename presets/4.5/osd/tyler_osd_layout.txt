@@ -4,23 +4,20 @@
 #$ STATUS: COMMUNITY
 #$ KEYWORDS: tyler, osd, layout, warnings, alarms, personal
 #$ AUTHOR: Tyler Cash
-#$ DESCRIPTION: My personal OSD element layout, warning thresholds and alarm levels, captured from my HummingBird V4 and applied to every quad so the OSD reads the same across my whole fleet.
-#$ DESCRIPTION: Element positions were laid out for a 30x13 canvas (HD/DJI-style); on an analog 30x16 or 22x11 canvas some elements may need nudging afterwards.
+#$ DESCRIPTION: My personal OSD element layout, warning thresholds and alarm levels, applied to every quad so the OSD reads the same across my whole fleet - HDZero and analog NTSC alike.
+#$ DESCRIPTION: Element positions were laid out on a 30x13 grid (analog NTSC); the HDZero option below switches to its native 53x20 canvas, which may shift a few elements slightly.
 #$ DESCRIPTION: This overwrites every osd_* setting captured below, so it always leaves a fully known layout regardless of what was configured before.
+#$ DESCRIPTION: osd_rssi_dbm_alarm is set to -100, assuming ELRS 250Hz (sensitivity floor -108dBm) - if a craft runs a different air rate, its noise floor differs and this value should be adjusted accordingly.
+#$ DESCRIPTION: Deliberately excludes anything craft/hardware specific: ESC and FC-core-temp alarms (depend on the ESC/FC fitted), osd_cap_alarm (depends on the battery pack used), and the display/canvas setup (below, since I fly both HDZero and analog NTSC).
 
 set osd_units = METRIC
 set osd_warn_bitmask = 270317
 set osd_rssi_alarm = 20
 set osd_link_quality_alarm = 80
-set osd_rssi_dbm_alarm = -60
+set osd_rssi_dbm_alarm = -100
 set osd_rsnr_alarm = 4
-set osd_cap_alarm = 2200
 set osd_alt_alarm = 100
 set osd_distance_alarm = 0
-set osd_esc_temp_alarm = 0
-set osd_esc_rpm_alarm = -1
-set osd_esc_current_alarm = -1
-set osd_core_temp_alarm = 85
 set osd_ah_max_pit = 20
 set osd_ah_max_rol = 40
 set osd_ah_invert = OFF
@@ -112,7 +109,6 @@ set osd_profile_1_name = -
 set osd_profile_2_name = -
 set osd_profile_3_name = -
 set osd_gps_sats_show_pdop = OFF
-set osd_displayport_device = MAX7456
 set osd_rcchannels = -1,-1,-1,-1
 set osd_camera_frame_width = 24
 set osd_camera_frame_height = 11
@@ -122,6 +118,17 @@ set osd_menu_background = TRANSPARENT
 set osd_aux_channel = 1
 set osd_aux_scale = 200
 set osd_aux_symbol = 65
-set osd_canvas_width = 30
-set osd_canvas_height = 13
 set osd_craftname_msgs = OFF
+
+#$ OPTION_GROUP BEGIN: (EXCLUSIVE) Display system
+    #$ OPTION BEGIN (CHECKED): HDZero (digital)
+        set osd_displayport_device = MSP
+        set osd_canvas_width = 53
+        set osd_canvas_height = 20
+    #$ OPTION END
+    #$ OPTION BEGIN (UNCHECKED): Analog NTSC
+        set osd_displayport_device = MAX7456
+        set osd_canvas_width = 30
+        set osd_canvas_height = 13
+    #$ OPTION END
+#$ OPTION_GROUP END
