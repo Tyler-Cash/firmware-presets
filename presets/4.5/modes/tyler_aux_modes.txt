@@ -1,0 +1,33 @@
+#$ TITLE: Tyler's standard AUX/mode switch layout
+#$ FIRMWARE_VERSION: 4.5
+#$ CATEGORY: MODES
+#$ STATUS: COMMUNITY
+#$ KEYWORDS: tyler, aux, modes, arm, horizon, telemetry, personal
+#$ AUTHOR: Tyler Cash
+#$ DESCRIPTION: My personal switch layout, applied to every quad in my fleet so arming and mode behavior feel identical no matter which craft I'm flying.
+#$ DESCRIPTION: AUX1 high (1900-2100) = ARM.
+#$ DESCRIPTION: AUX2 high (1900-2100) = USER4 (a spare/custom mode slot - wire it to whatever that craft needs via Modes/Programming, or leave unused).
+#$ DESCRIPTION: AUX3 is a 3-position switch: low (1075-1225) = Telemetry, mid (1400-1600) = Horizon, high = Acro (no extra mode).
+#$ DESCRIPTION: Every other AUX slot is explicitly reset to disabled so this preset always leaves a clean, fully-known mode setup regardless of what was configured before.
+
+# aux
+aux 0 0 0 1900 2100 0 0
+aux 1 2 2 1400 1600 0 0
+aux 2 15 2 1075 1225 0 0
+aux 3 35 1 1900 2100 0 0
+aux 4 0 0 900 900 0 0
+aux 5 0 0 900 900 0 0
+aux 6 0 0 900 900 0 0
+aux 7 0 0 900 900 0 0
+aux 8 0 0 900 900 0 0
+aux 9 0 0 900 900 0 0
+aux 10 0 0 900 900 0 0
+aux 11 0 0 900 900 0 0
+aux 12 0 0 900 900 0 0
+aux 13 0 0 900 900 0 0
+aux 14 0 0 900 900 0 0
+aux 15 0 0 900 900 0 0
+aux 16 0 0 900 900 0 0
+aux 17 0 0 900 900 0 0
+aux 18 0 0 900 900 0 0
+aux 19 0 0 900 900 0 0

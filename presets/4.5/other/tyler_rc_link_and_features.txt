@@ -1,0 +1,62 @@
+#$ TITLE: Tyler's RC link, features and failsafe behavior
+#$ FIRMWARE_VERSION: 4.5
+#$ CATEGORY: OTHER
+#$ STATUS: COMMUNITY
+#$ KEYWORDS: tyler, features, crsf, elrs, failsafe, airmode, personal
+#$ AUTHOR: Tyler Cash
+#$ DESCRIPTION: My standard receiver protocol, feature flags and failsafe behavior, so every craft on ELRS/CRSF behaves the same way if the link is lost.
+#$ DESCRIPTION: Feature flags are reset to their firmware defaults first, then my standard set is enabled on top, so this always leaves a fully known feature configuration regardless of what was configured before.
+#$ DESCRIPTION: Deliberately excludes anything board/wiring-specific (UART assignments, SPI bus numbers, beeper pin polarity) since those vary craft to craft.
+#$ DESCRIPTION: If a craft doesn't have an onboard RX-SPI receiver, the rx_spi_protocol line below is simply ignored by that target.
+
+# feature
+feature -RX_PPM
+feature -INFLIGHT_ACC_CAL
+feature -RX_SERIAL
+feature -MOTOR_STOP
+feature -SERVO_TILT
+feature -SOFTSERIAL
+feature -GPS
+feature -RANGEFINDER
+feature -TELEMETRY
+feature -3D
+feature -RX_PARALLEL_PWM
+feature -RX_MSP
+feature -RSSI_ADC
+feature -LED_STRIP
+feature -DISPLAY
+feature -OSD
+feature -CHANNEL_FORWARDING
+feature -TRANSPONDER
+feature -AIRMODE
+feature -RX_SPI
+feature -ESC_SENSOR
+feature -ANTI_GRAVITY
+feature TELEMETRY
+feature LED_STRIP
+feature OSD
+feature AIRMODE
+feature RX_SPI
+feature ANTI_GRAVITY
+
+# RC link
+set serialrx_provider = CRSF
+set serialrx_inverted = OFF
+set serialrx_halfduplex = OFF
+set rx_spi_protocol = EXPRESSLRS
+set rx_min_usec = 885
+set rx_max_usec = 2115
+set airmode_start_throttle_percent = 25
+
+# failsafe behavior
+set failsafe_delay = 15
+set failsafe_off_delay = 10
+set failsafe_throttle = 1000
+set failsafe_switch_mode = STAGE2
+set failsafe_throttle_low_delay = 100
+set failsafe_procedure = DROP
+set failsafe_recovery_delay = 5
+set failsafe_stick_threshold = 30
+
+# beeper preference
+set beeper_dshot_beacon_tone = 2

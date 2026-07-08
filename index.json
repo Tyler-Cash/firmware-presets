@@ -206,6 +206,7 @@
       "Sugar K",
       "sugarK",
       "SupaflyFPV",
+      "Tyler Cash",
       "UAV Tech (Mark Spatz)",
       "Utka v tapkah",
       "Viki Baarathi",
@@ -298,13 +299,16 @@
       "air unit",
       "air65",
       "air75",
+      "airmode",
       "akk",
+      "alarms",
       "AlexFPV",
       "analog",
       "antonig",
       "aos",
       "AOS T3",
       "Apex",
+      "arm",
       "Audio TBS",
       "AutoSelect",
       "aux",
@@ -345,6 +349,7 @@
       "cinewhoop",
       "clean",
       "clear",
+      "colors",
       "colour change",
       "COMPRESSOR",
       "Configure",
@@ -383,6 +388,8 @@
       "Extreme",
       "factory",
       "fader fpv",
+      "failsafe",
+      "features",
       "feisar",
       "fictive flame",
       "filter",
@@ -420,6 +427,7 @@
       "HDZERO",
       "Headsup",
       "HighKV",
+      "horizon",
       "hot",
       "HS5",
       "HV",
@@ -439,9 +447,12 @@
       "kim",
       "launch",
       "launch_mode",
+      "layout",
       "LeadFingers",
       "League",
+      "led",
       "leds",
+      "ledstrip",
       "limon",
       "link",
       "Llama",
@@ -459,6 +470,7 @@
       "MinChan",
       "MM",
       "mode",
+      "mode_color",
       "modes",
       "mountain surfing",
       "mouse fpv",
@@ -495,6 +507,7 @@
       "pandarc",
       "partial",
       "Passthrough",
+      "personal",
       "pid",
       "PIDtoolbox",
       "pro32",
@@ -579,6 +592,7 @@
       "TBS Core",
       "tbs sa",
       "Team Black Sheep",
+      "telemetry",
       "Texas",
       "thicc",
       "tiny",
@@ -596,6 +610,7 @@
       "tx1600",
       "tx5m.1",
       "tx800",
+      "tyler",
       "tyrant",
       "ul10",
       "ul5",
@@ -626,6 +641,7 @@
       "vtx table",
       "vtxtable",
       "Walksnail",
+      "warnings",
       "whoop",
       "whoop lite",
       "whooptopia",
@@ -8945,6 +8961,47 @@
       "priority": 0
     },
     {
+      "fullPath": "presets/4.5/leds/tyler_led_layout.txt",
+      "hash": "09a279cdaa640fc01105a82e879471d66ef8794278d4dcb22ed849faaa4296ef",
+      "title": "Tyler's LED strip layout and colors",
+      "firmware_version": [
+        "4.5"
+      ],
+      "category": "LEDS",
+      "status": "COMMUNITY",
+      "keywords": [
+        "tyler",
+        "led",
+        "ledstrip",
+        "colors",
+        "mode_color",
+        "personal"
+      ],
+      "author": "Tyler Cash",
+      "priority": 0
+    },
+    {
+      "fullPath": "presets/4.5/modes/tyler_aux_modes.txt",
+      "hash": "05caca1d64a975d8dbe002d8a3436a72829511f35d7aacea9a7e848fbb99b812",
+      "title": "Tyler's standard AUX/mode switch layout",
+      "firmware_version": [
+        "4.5"
+      ],
+      "category": "MODES",
+      "status": "COMMUNITY",
+      "keywords": [
+        "tyler",
+        "aux",
+        "modes",
+        "arm",
+        "horizon",
+        "telemetry",
+        "personal"
+      ],
+      "author": "Tyler Cash",
+      "priority": 0
+    },
+    {
       "fullPath": "presets/4.5/osd/JazzMutant_HDZero_osd.txt",
       "hash": "a31f1b77f1506cb07a923d7f86a268c98de71574453ac3f4ca6ba11cd7637c0b",
       "title": "JazzMutant HDZero OSD",
@@ -9006,6 +9063,26 @@
         "racing"
       ],
       "author": "sugarK",
+      "priority": 0
+    },
+    {
+      "fullPath": "presets/4.5/osd/tyler_osd_layout.txt",
+      "hash": "fa3ed2acb3985bb0a99f82de7429068c1dba4935942bf3df8d52928cd09c8283",
+      "title": "Tyler's standard OSD layout",
+      "firmware_version": [
+        "4.5"
+      ],
+      "category": "OSD",
+      "status": "COMMUNITY",
+      "keywords": [
+        "tyler",
+        "osd",
+        "layout",
+        "warnings",
+        "alarms",
+        "personal"
+      ],
+      "author": "Tyler Cash",
       "priority": 0
     },
     {
@@ -9152,6 +9229,27 @@
         "GPS_Rescue"
       ],
       "author": "Betaflight",
+      "priority": 0
+    },
+    {
+      "fullPath": "presets/4.5/other/tyler_rc_link_and_features.txt",
+      "hash": "b0ff1036aab5c52eab3e159f882b13cf05ee88f9658d6e642ddd58241c01361c",
+      "title": "Tyler's RC link, features and failsafe behavior",
+      "firmware_version": [
+        "4.5"
+      ],
+      "category": "OTHER",
+      "status": "COMMUNITY",
+      "keywords": [
+        "tyler",
+        "features",
+        "crsf",
+        "elrs",
+        "failsafe",
+        "airmode",
+        "personal"
+      ],
+      "author": "Tyler Cash",
       "priority": 0
     },
     {
@@ -10718,6 +10816,25 @@
       ],
       "author": "sugarK",
       "force_options_review": true,
+      "priority": 1000000
+    },
+    {
+      "fullPath": "presets/4.5/vtx/tyler_vtx_table.txt",
+      "hash": "af9249091429385a4aa7abb581044827c704f301389f3eb98dc6fdb643bef652",
+      "title": "Tyler's VTX table",
+      "firmware_version": [
+        "4.5"
+      ],
+      "category": "VTX",
+      "status": "COMMUNITY",
+      "keywords": [
+        "tyler",
+        "vtx",
+        "vtxtable",
+        "analog",
+        "personal"
+      ],
+      "author": "Tyler Cash",
       "priority": 1000000
     }
   ]
