@@ -7,6 +7,7 @@
 #$ AUTHOR: Tyler Cash
 #$ DESCRIPTION: Everything I apply to a craft except the VTX table, bundled into one preset with checkboxes for the parts that vary by hardware, so setting up a new craft is one preset instead of four. VTX stays separate (its own category/preset) since VTX power tables are per-VTX-chip, not something that fits an OTHER-category checkbox here.
 #$ DESCRIPTION: AUX channel indices (AUX1=Arm, AUX2=Turtle, AUX7=3-way mode switch, AUX8=LEDLOW, AUX9=VTX Pit Mode, AUX10=Beeper Mute) are kept identical across my whole fleet so one consistent radio switch/pot layout controls every craft the same way - only which physical control feeds each channel is a radio-side concern.
+#$ DESCRIPTION: AUX10's low range also triggers LEDLOW (not just Beeper Mute), so the same dial position that mutes the beeper also dims the LED strip - a unified "stealth" position at the bottom of that pot, on top of the dedicated LEDLOW switch on AUX8.
 #$ DESCRIPTION: AUX7 is a 3-position switch: low = Acro, mid = Angle, high = Altitude Hold + Position Hold together. AltHold/PosHold are inert on craft without GPS/baro - harmless, just unused. Some craft may need a different mode substituted here (e.g. Horizon) after applying, since not everything in this slot applies to every airframe - override manually if so.
 #$ DESCRIPTION: Feature flags are reset to their firmware defaults first, then my standard set enabled on top, so this always leaves a fully known feature configuration. Deliberately excludes anything board/wiring-specific (UART assignments, SPI bus numbers, RX_SPI/RX_SERIAL, RSSI_ADC beyond the standard ELRS/CRSF assumption) since those vary craft to craft - see the individual per-topic presets in this repo for the full reasoning on each exclusion.
 #$ DESCRIPTION: Rates are QUICK type, aimed at a freestyle/cinematic mix, blackbox-validated on my Air65. Deliberately excludes thr_mid since hover throttle % depends on each craft's thrust-to-weight ratio.
@@ -75,7 +76,7 @@ aux 10 52 0 900 900 0 15
 aux 11 11 6 1700 2100 0 0
 aux 12 39 8 900 1200 0 0
 aux 13 52 9 900 1200 0 0
-aux 14 0 0 900 900 0 0
+aux 14 15 9 900 1200 0 0
 aux 15 0 0 900 900 0 0
 aux 16 0 0 900 900 0 0
 aux 17 0 0 900 900 0 0
