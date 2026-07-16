@@ -10,7 +10,7 @@
 #$ DESCRIPTION: AUX10's low range also triggers LEDLOW (not just Beeper Mute), so the same dial position that mutes the beeper also dims the LED strip - a unified "stealth" position at the bottom of that pot, on top of the dedicated LEDLOW switch on AUX8.
 #$ DESCRIPTION: AUX7 is a 3-position switch: low = Acro, mid = Angle, high = Altitude Hold + Position Hold together. AltHold/PosHold are inert on craft without GPS/baro - harmless, just unused. Some craft may need a different mode substituted here (e.g. Horizon) after applying, since not everything in this slot applies to every airframe - override manually if so.
 #$ DESCRIPTION: Feature flags are reset to their firmware defaults first, then my standard set enabled on top, so this always leaves a fully known feature configuration. Deliberately excludes anything board/wiring-specific (UART assignments, SPI bus numbers, RX_SPI/RX_SERIAL, RSSI_ADC beyond the standard ELRS/CRSF assumption) since those vary craft to craft - see the individual per-topic presets in this repo for the full reasoning on each exclusion.
-#$ DESCRIPTION: Rates are QUICK type, aimed at a freestyle/cinematic mix, blackbox-validated on my Air65. Deliberately excludes thr_mid since hover throttle % depends on each craft's thrust-to-weight ratio.
+#$ DESCRIPTION: Rates are QUICK type, aimed at a freestyle/cinematic mix, blackbox-validated on my Air65. thr_mid is set to 30 as a starting baseline (my Air65's actual hover point) rather than left at the 50 default, since 30 is a better guess for a light whoop-class craft than 50 is - but hover throttle % depends on each craft's thrust-to-weight ratio, so treat this as a rough starting point to override per-craft, not a finished value.
 #$ DESCRIPTION: Choose your ELRS packet rate and display system below - both option groups apply regardless of each other.
 
 # feature
@@ -96,6 +96,7 @@ set roll_srate = 90
 set pitch_srate = 90
 set yaw_srate = 65
 set thr_expo = 15
+set thr_mid = 30
 
 #$ OPTION_GROUP BEGIN: (EXCLUSIVE) ELRS packet rate (sets osd_rssi_dbm_alarm)
     #$ OPTION BEGIN (UNCHECKED): 50Hz (-115dBm sensitivity)
