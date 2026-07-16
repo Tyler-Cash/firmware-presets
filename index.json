@@ -299,18 +299,13 @@
       "air unit",
       "air65",
       "air75",
-      "airmode",
       "akk",
-      "alarms",
       "AlexFPV",
-      "althold",
       "analog",
-      "angle",
       "antonig",
       "aos",
       "AOS T3",
       "Apex",
-      "arm",
       "Audio TBS",
       "AutoSelect",
       "aux",
@@ -320,7 +315,6 @@
       "bardwell",
       "basher",
       "basic",
-      "beeper",
       "beginner",
       "betaflight",
       "betafpv",
@@ -354,10 +348,10 @@
       "clear",
       "colors",
       "colour change",
+      "complete",
       "COMPRESSOR",
       "Configure",
       "control",
-      "crashflip",
       "Crossfire",
       "CRSF",
       "ctzsnooze",
@@ -392,7 +386,6 @@
       "Extreme",
       "factory",
       "fader fpv",
-      "failsafe",
       "features",
       "feisar",
       "fictive flame",
@@ -409,7 +402,7 @@
       "freedom",
       "freedom spec",
       "FreedomSpec",
-      "freestyle",
+      "Freestyle",
       "freesytle",
       "freetyle",
       "FreshBread",
@@ -450,11 +443,9 @@
       "kim",
       "launch",
       "launch_mode",
-      "layout",
       "LeadFingers",
       "League",
       "led",
-      "ledlow",
       "leds",
       "ledstrip",
       "limon",
@@ -500,7 +491,6 @@
       "no rpm",
       "noisy",
       "Normal",
-      "ntsc",
       "O3 & O4",
       "O3 air unit",
       "Omni",
@@ -515,7 +505,6 @@
       "personal",
       "pid",
       "PIDtoolbox",
-      "poshold",
       "pro32",
       "profile",
       "Protos",
@@ -600,7 +589,6 @@
       "Team Black Sheep",
       "Texas",
       "thicc",
-      "throttle",
       "tiny",
       "tiny tank",
       "TinyApe",
@@ -612,7 +600,6 @@
       "tramp",
       "transmitter",
       "tune",
-      "turtle",
       "twig",
       "tx1600",
       "tx5m.1",
@@ -646,10 +633,8 @@
       "vt5804bat",
       "vtx",
       "vtx table",
-      "vtxpitmode",
       "vtxtable",
       "Walksnail",
-      "warnings",
       "whoop",
       "whoop lite",
       "whooptopia",
@@ -1263,27 +1248,6 @@
       ],
       "author": "Betaflight",
       "priority": 0
-    },
-    {
-      "fullPath": "presets/2025.12/rates/tyler_rates.txt",
-      "hash": "c4e81cb8c729d322403d674f2dc179affa432ffb8b32164763a60cd2cf4d38b2",
-      "title": "Tyler's QUICK rates - freestyle/cinematic mix",
-      "firmware_version": [
-        "2025.12"
-      ],
-      "category": "RATES",
-      "status": "COMMUNITY",
-      "keywords": [
-        "tyler",
-        "rates",
-        "quick",
-        "freestyle",
-        "cinematic",
-        "throttle",
-        "personal"
-      ],
-      "author": "Tyler Cash",
-      "priority": 10000
     },
     {
       "fullPath": "presets/2025.12/rc_link/defaults.txt",
@@ -9011,34 +8975,6 @@
       "priority": 0
     },
     {
-      "fullPath": "presets/4.5/modes/tyler_aux_modes.txt",
-      "hash": "3784d1f084b191d95522605e738fd993f6f785772c13ec03ce0f4d5d99971ad1",
-      "title": "Tyler's standard AUX/mode switch layout",
-      "firmware_version": [
-        "4.5",
-        "2025.12"
-      ],
-      "category": "MODES",
-      "status": "COMMUNITY",
-      "keywords": [
-        "tyler",
-        "aux",
-        "modes",
-        "arm",
-        "angle",
-        "althold",
-        "poshold",
-        "turtle",
-        "crashflip",
-        "ledlow",
-        "beeper",
-        "vtxpitmode",
-        "personal"
-      ],
-      "author": "Tyler Cash",
-      "priority": 0
-    },
-    {
       "fullPath": "presets/4.5/osd/JazzMutant_HDZero_osd.txt",
       "hash": "a31f1b77f1506cb07a923d7f86a268c98de71574453ac3f4ca6ba11cd7637c0b",
       "title": "JazzMutant HDZero OSD",
@@ -9100,52 +9036,6 @@
         "racing"
       ],
       "author": "sugarK",
-      "priority": 0
-    },
-    {
-      "fullPath": "presets/4.5/osd/tyler_osd_analog.txt",
-      "hash": "57164e8ebe5191d60174420553feeb4e4a8b0932a49b08c30712ee198dded961",
-      "title": "Tyler's analog NTSC OSD layout",
-      "firmware_version": [
-        "4.5",
-        "2025.12"
-      ],
-      "category": "OSD",
-      "status": "COMMUNITY",
-      "keywords": [
-        "tyler",
-        "osd",
-        "analog",
-        "ntsc",
-        "layout",
-        "warnings",
-        "alarms",
-        "personal"
-      ],
-      "author": "Tyler Cash",
-      "priority": 0
-    },
-    {
-      "fullPath": "presets/4.5/osd/tyler_osd_hdzero.txt",
-      "hash": "82431f2e7c85400efd369204d4f79bd6caf725919a7b3d51453d993ad33074d0",
-      "title": "Tyler's HDZero OSD layout",
-      "firmware_version": [
-        "4.5",
-        "2025.12"
-      ],
-      "category": "OSD",
-      "status": "COMMUNITY",
-      "keywords": [
-        "tyler",
-        "osd",
-        "hdzero",
-        "hd",
-        "layout",
-        "warnings",
-        "alarms",
-        "personal"
-      ],
-      "author": "Tyler Cash",
       "priority": 0
     },
     {
@@ -9295,9 +9185,9 @@
       "priority": 0
     },
     {
-      "fullPath": "presets/4.5/other/tyler_rc_link_and_features.txt",
-      "hash": "3f6346e18baa4541b20c21cdaf2ae6153a034abe8374f7ead0f223d90037509f",
-      "title": "Tyler's RC link, features and failsafe behavior",
+      "fullPath": "presets/4.5/other/tyler_complete_setup.txt",
+      "hash": "3c7d2410fc53aa9bb95189bad8ed6462a629f42ebb12c409078cbe819be25da2",
+      "title": "Tyler's complete drone setup (modes, OSD, RC link, rates)",
       "firmware_version": [
         "4.5",
         "2025.12"
@@ -9306,11 +9196,12 @@
       "status": "COMMUNITY",
       "keywords": [
         "tyler",
+        "complete",
+        "modes",
+        "osd",
+        "rates",
         "features",
-        "crsf",
-        "elrs",
-        "failsafe",
-        "airmode",
+        "rc link",
         "personal"
       ],
       "author": "Tyler Cash",
