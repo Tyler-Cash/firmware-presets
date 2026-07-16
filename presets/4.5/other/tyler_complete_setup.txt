@@ -112,7 +112,7 @@ set thr_expo = 15
 #$ OPTION_GROUP END
 
 #$ OPTION_GROUP BEGIN: (EXCLUSIVE) Display system
-    #$ OPTION BEGIN (CHECKED): HDZero (digital)
+    #$ OPTION BEGIN (UNCHECKED): HDZero (digital)
         set osd_units = METRIC
         set osd_warn_bitmask = 319485
         set osd_rssi_alarm = 20
@@ -225,7 +225,7 @@ set thr_expo = 15
         set osd_canvas_width = 53
         set osd_canvas_height = 20
     #$ OPTION END
-    #$ OPTION BEGIN (UNCHECKED): Analog NTSC
+    #$ OPTION BEGIN (CHECKED): Analog NTSC
         set osd_units = METRIC
         set osd_warn_bitmask = 503805
         set osd_rssi_alarm = 20
