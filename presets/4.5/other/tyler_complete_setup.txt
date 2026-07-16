@@ -105,10 +105,10 @@ set thr_mid = 30
     #$ OPTION BEGIN (UNCHECKED): 100Hz / 150Hz (-112dBm sensitivity)
         set osd_rssi_dbm_alarm = -104
     #$ OPTION END
-    #$ OPTION BEGIN (CHECKED): 250Hz (-108dBm sensitivity)
+    #$ OPTION BEGIN (UNCHECKED): 250Hz (-108dBm sensitivity)
         set osd_rssi_dbm_alarm = -100
     #$ OPTION END
-    #$ OPTION BEGIN (UNCHECKED): 500Hz (-105dBm sensitivity)
+    #$ OPTION BEGIN (CHECKED): 500Hz (-105dBm sensitivity)
         set osd_rssi_dbm_alarm = -97
     #$ OPTION END
 #$ OPTION_GROUP END
