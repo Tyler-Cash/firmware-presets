@@ -10,7 +10,7 @@
 #$ DESCRIPTION: AUX10's low range also triggers LEDLOW (not just Beeper Mute), so the same dial position that mutes the beeper also dims the LED strip - a unified "stealth" position at the bottom of that pot, on top of the dedicated LEDLOW switch on AUX8.
 #$ DESCRIPTION: AUX7 is a 3-position switch: low = Acro, mid = Angle, high = Altitude Hold + Position Hold together. AltHold/PosHold are inert on craft without GPS/baro - harmless, just unused. Some craft may need a different mode substituted here (e.g. Horizon) after applying, since not everything in this slot applies to every airframe - override manually if so.
 #$ DESCRIPTION: Feature flags are reset to their firmware defaults first, then my standard set enabled on top, so this always leaves a fully known feature configuration. Deliberately excludes anything board/wiring-specific (UART assignments, SPI bus numbers, RX_SPI/RX_SERIAL, RSSI_ADC beyond the standard ELRS/CRSF assumption) since those vary craft to craft - see the individual per-topic presets in this repo for the full reasoning on each exclusion.
-#$ DESCRIPTION: Rates are QUICK type, aimed at a freestyle/cinematic mix, blackbox-validated on my Air65. thr_mid is set to 30 as a starting baseline (my Air65's actual hover point) rather than left at the 50 default, since 30 is a better guess for a light whoop-class craft than 50 is - but hover throttle % depends on each craft's thrust-to-weight ratio, so treat this as a rough starting point to override per-craft, not a finished value.
+#$ DESCRIPTION: Rates are ACTUAL type, aimed at a freestyle/cinematic mix. These were converted from my blackbox-validated QUICK rates on the Air65 - center sensitivity and max rate are matched exactly, so the feel carries over, though ACTUAL ramps a little harder near full stick. thr_mid is set to 30 as a starting baseline (my Air65's actual hover point) rather than left at the 50 default, and thr_expo is raised to 40 to flatten the throttle curve around that hover point for finer hover control - but hover throttle % depends on each craft's thrust-to-weight ratio, so treat thr_mid as a rough starting point to override per-craft, not a finished value.
 #$ DESCRIPTION: Choose your ELRS packet rate and display system below - both option groups apply regardless of each other.
 
 # feature
@@ -84,18 +84,24 @@ aux 18 0 0 900 900 0 0
 aux 19 0 0 900 900 0 0
 
 # rates
-set rates_type = QUICK
+# ACTUAL type, converted from my QUICK rates to keep the same feel: center
+# sensitivity and max rate are matched exactly (roll/pitch ~70 deg/s at center,
+# 900 max; yaw ~90 at center, 650 max) and the high expo reproduces the soft
+# super-expo center. ACTUAL ramps a touch harder past 3/4 stick than QUICK did.
+set rates_type = ACTUAL
 set quickrates_rc_expo = ON
-set roll_rc_rate = 42
-set pitch_rc_rate = 42
-set yaw_rc_rate = 55
-set roll_expo = 15
-set pitch_expo = 15
-set yaw_expo = 15
+set roll_rc_rate = 7
+set pitch_rc_rate = 7
+set yaw_rc_rate = 9
+set roll_expo = 88
+set pitch_expo = 88
+set yaw_expo = 77
 set roll_srate = 90
 set pitch_srate = 90
 set yaw_srate = 65
-set thr_expo = 15
+# thr_expo raised 15 -> 40 to flatten the curve around thr_mid (my ~30% hover
+# point) for finer, more precise hover control.
+set thr_expo = 40
 set thr_mid = 30
 
 #$ OPTION_GROUP BEGIN: (EXCLUSIVE) ELRS packet rate (sets osd_rssi_dbm_alarm)
