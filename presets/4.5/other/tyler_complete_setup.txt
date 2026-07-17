@@ -6,11 +6,11 @@
 #$ KEYWORDS: tyler, complete, modes, osd, rates, features, rc link, personal
 #$ AUTHOR: Tyler Cash
 #$ DESCRIPTION: Everything I apply to a craft except the VTX table, bundled into one preset with checkboxes for the parts that vary by hardware, so setting up a new craft is one preset instead of four. VTX stays separate (its own category/preset) since VTX power tables are per-VTX-chip, not something that fits an OTHER-category checkbox here.
-#$ DESCRIPTION: AUX channel indices (AUX1=Arm, AUX2=Turtle, AUX7=3-way mode switch, AUX8=LEDLOW, AUX9=VTX Pit Mode, AUX10=Beeper Mute) are kept identical across my whole fleet so one consistent radio switch/pot layout controls every craft the same way - only which physical control feeds each channel is a radio-side concern.
-#$ DESCRIPTION: AUX10's low range also triggers LEDLOW (not just Beeper Mute), so the same dial position that mutes the beeper also dims the LED strip - a unified "stealth" position at the bottom of that pot, on top of the dedicated LEDLOW switch on AUX8.
-#$ DESCRIPTION: AUX7 is a 3-position switch: low = Acro, mid = Angle, high = Altitude Hold + Position Hold together. AltHold/PosHold are inert on craft without GPS/baro - harmless, just unused. Some craft may need a different mode substituted here (e.g. Horizon) after applying, since not everything in this slot applies to every airframe - override manually if so.
+#$ DESCRIPTION: AUX layout, kept consistent across my fleet so one radio switch/pot arrangement drives every craft the same way (mirrors my working AIR65 R): AUX1 = Arm, AUX3 = LEDLOW, AUX4 = VTX Pit Mode, AUX5 = 3-position flight-mode switch (low = Acro/off, mid = Angle, high = Horizon), AUX7 = Launch Control, AUX8 = Turtle (flip over after crash), AUX9 = Beeper Mute. Only which physical control feeds each channel is a radio-side concern.
+#$ DESCRIPTION: The BEEPER mode is deliberately left unassigned to any switch - a manual beeper-on-a-switch is what fired the DShot beacon and blocked arming (see the beeper note below), so it stays off. Launch Control on AUX7 is unusual on a light cinematic whoop; it is carried here because it is in my working config - drop it or swap in another mode per craft if it is not wanted.
 #$ DESCRIPTION: Feature flags are reset to their firmware defaults first, then my standard set enabled on top, so this always leaves a fully known feature configuration. Deliberately excludes anything board/wiring-specific (UART assignments, SPI bus numbers, RX_SPI/RX_SERIAL, RSSI_ADC beyond the standard ELRS/CRSF assumption) since those vary craft to craft - see the individual per-topic presets in this repo for the full reasoning on each exclusion.
 #$ DESCRIPTION: Rates are ACTUAL type, aimed at a freestyle/cinematic mix. These were converted from my blackbox-validated QUICK rates on the Air65 - center sensitivity and max rate are matched exactly, so the feel carries over, though ACTUAL ramps a little harder near full stick. thr_mid is set to 30 as a starting baseline (my Air65's actual hover point) rather than left at the 50 default, and thr_expo is raised to 40 to flatten the throttle curve around that hover point for finer hover control - but hover throttle % depends on each craft's thrust-to-weight ratio, so treat thr_mid as a rough starting point to override per-craft, not a finished value.
+#$ DESCRIPTION: Beeper conditions are left at firmware default and the DShot beacon fires on RX_LOST/RX_SET. The arming block I hit earlier was caused by the BEEPER *mode* sitting on a switch (held on, it beeps RX_SET continuously and the beacon arming-guard then blocks arming - a stuck "BEACON ON" that also prevents arming into turtle mode). The fix is just to keep the BEEPER mode off any switch, which this preset does (see the aux block).
 #$ DESCRIPTION: Choose your ELRS packet rate and display system below - both option groups apply regardless of each other.
 
 # feature
@@ -60,23 +60,43 @@ set failsafe_stick_threshold = 30
 
 # beeper preference
 set beeper_dshot_beacon_tone = 2
+# Beeper conditions are left at firmware default (low battery, arming, etc. all
+# beep). The DShot beacon fires on RX_LOST and RX_SET. The thing that caused the
+# arming block earlier was NOT a beeper condition - it was the BEEPER *mode* sat
+# on a switch: when that mode is held on, RX_SET beeps continuously, each beep
+# re-arms Betaflight's beacon arming-guard (~0.5s block), and arming is
+# permanently gated (OSD shows a stuck "BEACON ON"), which also blocks arming
+# into turtle mode. The fix is simply to keep the BEEPER mode off any switch -
+# see the aux block below (aux 3 is left unassigned on purpose).
+beacon RX_LOST
+beacon RX_SET
 
-# aux
+# aux (modes / switches) - mirrors my working AIR65 R layout
+#   aux 0  ARM        AUX1 high
+#   aux 1  ANGLE      AUX5 mid   \  3-position flight-mode switch on AUX5:
+#   aux 2  HORIZON    AUX5 high  /  low = Acro (no mode), mid = Angle, high = Horizon
+#   aux 3  BEEPER     unassigned - kept off a switch on purpose (see beeper note above)
+#   aux 4  LEDLOW     AUX3 low
+#   aux 5  CRASHFLIP  AUX8 high  - turtle / flip over after crash
+#   aux 6  VTXPITMODE AUX4 low
+#   aux 7  LAUNCHCTL  AUX7 mid   - unusual on a whoop; remove if unintended
+#   aux 8  BEEPERMUTE AUX9 low
+#   aux 9  BEEPERMUTE unassigned (second/linked slot)
 aux 0 0 0 1900 2100 0 0
-aux 1 0 0 900 900 0 0
-aux 2 1 4 1225 1650 0 0
-aux 3 2 4 1700 2100 0 0
-aux 4 13 0 900 900 0 35
-aux 5 13 0 900 900 0 1
-aux 6 13 0 900 900 0 3
-aux 7 13 0 900 900 0 27
+aux 1 1 4 1225 1650 0 0
+aux 2 2 4 1700 2100 0 0
+aux 3 13 0 900 900 0 27
+aux 4 15 2 900 1200 0 0
+aux 5 35 7 1625 2100 0 0
+aux 6 39 3 900 1200 0 0
+aux 7 49 6 1175 1575 0 0
 aux 8 52 8 900 1025 0 0
-aux 9 35 5 1700 2100 0 0
-aux 10 52 0 900 900 0 15
+aux 9 52 0 900 900 0 15
+aux 10 0 0 900 900 0 0
 aux 11 0 0 900 900 0 0
-aux 12 39 3 900 1200 0 0
+aux 12 0 0 900 900 0 0
 aux 13 0 0 900 900 0 0
-aux 14 15 2 900 1200 0 0
+aux 14 0 0 900 900 0 0
 aux 15 0 0 900 900 0 0
 aux 16 0 0 900 900 0 0
 aux 17 0 0 900 900 0 0
