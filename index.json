@@ -1036,6 +1036,26 @@
       "priority": 100
     },
     {
+      "fullPath": "presets/2025.12/leds/tyler_led_layout.txt",
+      "hash": "bf8f6acbece0e1cf4c15fb788852a9386adf38fb427a6504f7615f0bd139a585",
+      "title": "Tyler's LED strip layout and colors",
+      "firmware_version": [
+        "2025.12"
+      ],
+      "category": "LEDS",
+      "status": "COMMUNITY",
+      "keywords": [
+        "tyler",
+        "led",
+        "ledstrip",
+        "colors",
+        "mode_color",
+        "personal"
+      ],
+      "author": "Tyler Cash",
+      "priority": 0
+    },
+    {
       "fullPath": "presets/2025.12/osd/FaderFPV_DJI.txt",
       "hash": "70e7f9fcda229496c68e8a0361a7ab5cff2f2eb2370d94d71b214d7d3e6e14c8",
       "title": "Nicholas Young DJI OSD",
@@ -1212,6 +1232,28 @@
         "GPS_Rescue"
       ],
       "author": "Betaflight",
+      "priority": 0
+    },
+    {
+      "fullPath": "presets/2025.12/other/tyler_complete_setup.txt",
+      "hash": "c2a5c954dfa70dcb5ab4f32c3cd7eb8cb19b3b55a15cfa59976cd66dd7c202cb",
+      "title": "Tyler's complete drone setup (modes, OSD, RC link, rates)",
+      "firmware_version": [
+        "2025.12"
+      ],
+      "category": "OTHER",
+      "status": "COMMUNITY",
+      "keywords": [
+        "tyler",
+        "complete",
+        "modes",
+        "osd",
+        "rates",
+        "features",
+        "rc link",
+        "personal"
+      ],
+      "author": "Tyler Cash",
       "priority": 0
     },
     {
@@ -3021,6 +3063,25 @@
       ],
       "author": "UAV Tech (Mark Spatz)",
       "priority": 1000000000000
+    },
+    {
+      "fullPath": "presets/2025.12/vtx/tyler_vtx_table.txt",
+      "hash": "a6db0e7d86774df608f3b1b223941851a806fa0818f625b8671d8c86ed33f967",
+      "title": "Tyler's VTX table",
+      "firmware_version": [
+        "2025.12"
+      ],
+      "category": "VTX",
+      "status": "COMMUNITY",
+      "keywords": [
+        "tyler",
+        "vtx",
+        "vtxtable",
+        "analog",
+        "personal"
+      ],
+      "author": "Tyler Cash",
+      "priority": 1000000
     },
     {
       "fullPath": "presets/4.3/filters/basic_no_rpm_clean.txt",
@@ -8954,27 +9015,6 @@
       "priority": 0
     },
     {
-      "fullPath": "presets/4.5/leds/tyler_led_layout.txt",
-      "hash": "bb4fe7dbf2b7cf18d443a2d5cfe7bfc1e840db6b57082b4d56c7886c236af9dc",
-      "title": "Tyler's LED strip layout and colors",
-      "firmware_version": [
-        "4.5",
-        "2025.12"
-      ],
-      "category": "LEDS",
-      "status": "COMMUNITY",
-      "keywords": [
-        "tyler",
-        "led",
-        "ledstrip",
-        "colors",
-        "mode_color",
-        "personal"
-      ],
-      "author": "Tyler Cash",
-      "priority": 0
-    },
-    {
       "fullPath": "presets/4.5/osd/JazzMutant_HDZero_osd.txt",
       "hash": "a31f1b77f1506cb07a923d7f86a268c98de71574453ac3f4ca6ba11cd7637c0b",
       "title": "JazzMutant HDZero OSD",
@@ -9182,29 +9222,6 @@
         "GPS_Rescue"
       ],
       "author": "Betaflight",
-      "priority": 0
-    },
-    {
-      "fullPath": "presets/4.5/other/tyler_complete_setup.txt",
-      "hash": "af367e035d13372d8fcb0bcb8342d86f4aa42e96074933a50c0ec981e8cad44f",
-      "title": "Tyler's complete drone setup (modes, OSD, RC link, rates)",
-      "firmware_version": [
-        "4.5",
-        "2025.12"
-      ],
-      "category": "OTHER",
-      "status": "COMMUNITY",
-      "keywords": [
-        "tyler",
-        "complete",
-        "modes",
-        "osd",
-        "rates",
-        "features",
-        "rc link",
-        "personal"
-      ],
-      "author": "Tyler Cash",
       "priority": 0
     },
     {
@@ -10771,26 +10788,6 @@
       ],
       "author": "sugarK",
       "force_options_review": true,
-      "priority": 1000000
-    },
-    {
-      "fullPath": "presets/4.5/vtx/tyler_vtx_table.txt",
-      "hash": "56c4c65bd9f0707ca4af3f816d28fca4c7afcda3cca957955c87b783bf349bc6",
-      "title": "Tyler's VTX table",
-      "firmware_version": [
-        "4.5",
-        "2025.12"
-      ],
-      "category": "VTX",
-      "status": "COMMUNITY",
-      "keywords": [
-        "tyler",
-        "vtx",
-        "vtxtable",
-        "analog",
-        "personal"
-      ],
-      "author": "Tyler Cash",
       "priority": 1000000
     }
   ]

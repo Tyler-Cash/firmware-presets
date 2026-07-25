@@ -1,5 +1,4 @@
 #$ TITLE: Tyler's complete drone setup (modes, OSD, RC link, rates)
-#$ FIRMWARE_VERSION: 4.5
 #$ FIRMWARE_VERSION: 2025.12
 #$ CATEGORY: OTHER
 #$ STATUS: COMMUNITY
@@ -333,8 +332,9 @@ set yaw_rc_rate = 9
         set osd_aux_symbol = 65
         set osd_craftname_msgs = OFF
         set osd_displayport_device = MSP
-        set osd_canvas_width = 53
-        set osd_canvas_height = 20
+        # No osd_canvas_width/height here: those settings were removed in
+        # 2025.12. The canvas size is negotiated from the displayport device
+        # instead, so HDZero reports its own 53x20 canvas over MSP.
     #$ OPTION END
     #$ OPTION BEGIN (CHECKED): Analog NTSC
         set osd_units = METRIC
@@ -445,7 +445,8 @@ set yaw_rc_rate = 9
         set osd_aux_symbol = 65
         set osd_craftname_msgs = OFF
         set osd_displayport_device = MAX7456
-        set osd_canvas_width = 30
-        set osd_canvas_height = 13
+        # No osd_canvas_width/height here: those settings were removed in
+        # 2025.12. The MAX7456 driver sizes the canvas itself from the detected
+        # video standard (30x13 for NTSC).
     #$ OPTION END
 #$ OPTION_GROUP END
