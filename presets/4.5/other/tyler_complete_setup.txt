@@ -9,9 +9,11 @@
 #$ DESCRIPTION: AUX layout, kept consistent across my fleet so one radio switch/pot arrangement drives every craft the same way (mirrors my working AIR65 R): AUX1 = Arm, AUX3 = LEDLOW, AUX4 = VTX Pit Mode, AUX5 = 3-position flight-mode switch (low = Acro/off, mid = Angle, high = Horizon), AUX7 = Launch Control, AUX8 = Turtle (flip over after crash), AUX9 = Beeper Mute. Only which physical control feeds each channel is a radio-side concern.
 #$ DESCRIPTION: The BEEPER mode is deliberately left unassigned to any switch - a manual beeper-on-a-switch is what fired the DShot beacon and blocked arming (see the beeper note below), so it stays off. Launch Control on AUX7 is unusual on a light cinematic whoop; it is carried here because it is in my working config - drop it or swap in another mode per craft if it is not wanted.
 #$ DESCRIPTION: Feature flags are reset to their firmware defaults first, then my standard set enabled on top, so this always leaves a fully known feature configuration. Deliberately excludes anything board/wiring-specific (UART assignments, SPI bus numbers, RX_SPI/RX_SERIAL, RSSI_ADC beyond the standard ELRS/CRSF assumption) since those vary craft to craft - see the individual per-topic presets in this repo for the full reasoning on each exclusion.
-#$ DESCRIPTION: Rates are ACTUAL type, aimed at a freestyle/cinematic mix. These were converted from my blackbox-validated QUICK rates on the Air65 - center sensitivity and max rate are matched exactly, so the feel carries over, though ACTUAL ramps a little harder near full stick. thr_mid is set to 30 as a starting baseline (my Air65's actual hover point) rather than left at the 50 default, and thr_expo is raised to 40 to flatten the throttle curve around that hover point for finer hover control - but hover throttle % depends on each craft's thrust-to-weight ratio, so treat thr_mid as a rough starting point to override per-craft, not a finished value.
+#$ DESCRIPTION: Rates are ACTUAL type, converted from my blackbox-validated QUICK rates on the Air65. Everything that genuinely varies between a 1S indoor whoop and an outdoor freestyle craft - max rate, expo, throttle curve, battery cell voltages and failsafe guard time - now sits in the Craft class option group rather than being shared fleet-wide. Center sensitivity (70 deg/s roll/pitch, 90 yaw) is held constant across both classes, since that is the validated number and the part that carries muscle memory between crafts. Freestyle is the default selection.
 #$ DESCRIPTION: Beeper conditions are left at firmware default and the DShot beacon fires on RX_LOST/RX_SET. The arming block I hit earlier was caused by the BEEPER *mode* sitting on a switch (held on, it beeps RX_SET continuously and the beacon arming-guard then blocks arming - a stuck "BEACON ON" that also prevents arming into turtle mode). The fix is just to keep the BEEPER mode off any switch, which this preset does (see the aux block).
-#$ DESCRIPTION: Choose your ELRS packet rate and display system below - both option groups apply regardless of each other.
+#$ DESCRIPTION: Rates, thr_mid and thr_expo are rate-profile scoped rather than global, so the preset selects rate profile 0 explicitly before writing them and leaves it selected. Fly on rate profile 0, otherwise the rates in this preset are not the ones in effect.
+#$ DESCRIPTION: small_angle is set to 180 fleet-wide so every craft will arm at any attitude - the 25 degree default blocks arming off anything but a flat surface, which is a nuisance indoors and after a crash on a slope.
+#$ DESCRIPTION: Choose your craft class, ELRS packet rate and display system below - all three option groups apply independently of each other.
 
 # feature
 feature -RX_PPM
@@ -49,7 +51,7 @@ set rx_max_usec = 2115
 set airmode_start_throttle_percent = 25
 
 # failsafe behavior
-set failsafe_delay = 15
+# failsafe_delay is craft-class dependent - see the Craft class option group below.
 set failsafe_off_delay = 10
 set failsafe_throttle = 1000
 set failsafe_switch_mode = STAGE2
@@ -57,6 +59,14 @@ set failsafe_throttle_low_delay = 100
 set failsafe_procedure = DROP
 set failsafe_recovery_delay = 5
 set failsafe_stick_threshold = 30
+
+# arming
+# small_angle is the max tilt from level at which arming is still permitted. The
+# 25 degree default refuses to arm off anything but a flat surface, which is a
+# constant nuisance indoors (carpet, furniture, launching off a hand) and after a
+# crash landing on a slope. 180 permits arming at any attitude, on every craft in
+# the fleet - deliberately not craft-class dependent.
+set small_angle = 180
 
 # beeper preference
 set beeper_dshot_beacon_tone = 2
@@ -75,23 +85,23 @@ beacon RX_SET
 #   aux 0  ARM        AUX1 high
 #   aux 1  ANGLE      AUX5 mid   \  3-position flight-mode switch on AUX5:
 #   aux 2  HORIZON    AUX5 high  /  low = Acro (no mode), mid = Angle, high = Horizon
-#   aux 3  BEEPER     unassigned - kept off a switch on purpose (see beeper note above)
+#   aux 3  (blank)    BEEPER is kept off any switch on purpose - see beeper note above
 #   aux 4  LEDLOW     AUX3 low
 #   aux 5  CRASHFLIP  AUX8 high  - turtle / flip over after crash
 #   aux 6  VTXPITMODE AUX4 low
 #   aux 7  LAUNCHCTL  AUX7 mid   - unusual on a whoop; remove if unintended
 #   aux 8  BEEPERMUTE AUX9 low
-#   aux 9  BEEPERMUTE unassigned (second/linked slot)
+#   aux 9  (blank)
 aux 0 0 0 1900 2100 0 0
 aux 1 1 4 1225 1650 0 0
 aux 2 2 4 1700 2100 0 0
-aux 3 13 0 900 900 0 27
+aux 3 0 0 900 900 0 0
 aux 4 15 2 900 1200 0 0
 aux 5 35 7 1625 2100 0 0
 aux 6 39 3 900 1200 0 0
 aux 7 49 6 1175 1575 0 0
 aux 8 52 8 900 1025 0 0
-aux 9 52 0 900 900 0 15
+aux 9 0 0 900 900 0 0
 aux 10 0 0 900 900 0 0
 aux 11 0 0 900 900 0 0
 aux 12 0 0 900 900 0 0
@@ -103,39 +113,113 @@ aux 17 0 0 900 900 0 0
 aux 18 0 0 900 900 0 0
 aux 19 0 0 900 900 0 0
 
-# rates
-# ACTUAL type, converted from my QUICK rates to keep the same feel: center
-# sensitivity and max rate are matched exactly (roll/pitch ~70 deg/s at center,
-# 900 max; yaw ~90 at center, 650 max) and the high expo reproduces the soft
-# super-expo center. ACTUAL ramps a touch harder past 3/4 stick than QUICK did.
+# rates (ACTUAL type) - common settings, then per-craft-class values below
+#
+# IMPORTANT: rates, thr_mid and thr_expo are RATE-PROFILE scoped, not global.
+# Without an explicit selector they land in whichever rate profile happened to be
+# active when the preset was applied, so applying this twice on two crafts could
+# silently write two different profiles. Rate profile 0 is selected explicitly
+# here and left selected afterwards. Fly on rate profile 0.
+rateprofile 0
+
+# Center sensitivity is held at 70 deg/s roll/pitch and 90 deg/s yaw across BOTH
+# craft classes - that is the blackbox-validated number from the Air65 and it is
+# what carries the muscle memory between crafts. Only max rate, expo and the
+# throttle curve change per class.
 set rates_type = ACTUAL
 set quickrates_rc_expo = ON
 set roll_rc_rate = 7
 set pitch_rc_rate = 7
 set yaw_rc_rate = 9
-set roll_expo = 88
-set pitch_expo = 88
-set yaw_expo = 77
-set roll_srate = 90
-set pitch_srate = 90
-set yaw_srate = 65
-# thr_expo raised 15 -> 40 to flatten the curve around thr_mid (my ~30% hover
-# point) for finer, more precise hover control.
-set thr_expo = 40
-set thr_mid = 30
 
-#$ OPTION_GROUP BEGIN: (EXCLUSIVE) ELRS packet rate (sets osd_rssi_dbm_alarm)
+#$ OPTION_GROUP BEGIN: (EXCLUSIVE) Craft class (rates, throttle curve, battery, failsafe timing)
+    #$ OPTION BEGIN (CHECKED): Freestyle / outdoor - LiPo, 3.5in and up
+        # 900 deg/s roll/pitch, 750 yaw. Yaw raised from the Air65's 650 so
+        # coordinated turns and spins keep up with the roll/pitch rate. Expo
+        # dropped 0.88 -> 0.65: the very soft center that suits indoor hovering
+        # makes mid-stick flip and roll rates hard to place on a freestyle craft.
+        set roll_expo = 65
+        set pitch_expo = 65
+        set yaw_expo = 77
+        set roll_srate = 90
+        set pitch_srate = 90
+        set yaw_srate = 75
+
+        # Linear throttle. Flattening the curve around hover (as the indoor
+        # option does) compresses the top half of the range, which makes
+        # punch-outs and dive recoveries grabby and inconsistent - exactly where
+        # predictable throttle matters most. Try thr_expo 10-15 if you want a
+        # little softness around hover without losing the top end.
+        set thr_mid = 50
+        set thr_expo = 0
+
+        # Standard LiPo cell voltages. Set explicitly rather than left to
+        # firmware defaults so that switching this option group back from Indoor
+        # actually restores them instead of leaving the LiHV values in place.
+        set vbat_max_cell_voltage = 430
+        set vbat_full_cell_voltage = 410
+        set vbat_warning_cell_voltage = 350
+        set vbat_min_cell_voltage = 330
+
+        # 1.5s guard before failsafe stage 2. Outdoors this rides out brief link
+        # dropouts rather than dropping the craft on every glitch.
+        set failsafe_delay = 15
+    #$ OPTION END
+    #$ OPTION BEGIN (UNCHECKED): Indoor - 1S LiHV whoop (Air65)
+        # 600 deg/s roll/pitch, 500 yaw. Down from 900/650: full rate is simply
+        # not usable in a room, and lowering max rate while holding center
+        # sensitivity at 70 gives finer stick resolution over the range actually
+        # flown indoors. Revert srate to 90/90/65 to get the old Air65 feel back.
+        # Expo stays high - the soft center is what makes indoor hovering easy.
+        set roll_expo = 88
+        set pitch_expo = 88
+        set yaw_expo = 77
+        set roll_srate = 60
+        set pitch_srate = 60
+        set yaw_srate = 50
+
+        # thr_expo flattens the curve around thr_mid (the Air65's ~30% hover
+        # point) for finer hover control. Hover throttle depends on each craft's
+        # thrust-to-weight ratio, so re-check thr_mid per craft.
+        set thr_mid = 30
+        set thr_expo = 40
+
+        # 1S LiHV. Without these, cell-count detection and every battery warning
+        # and OSD percentage are wrong on a LiHV pack. min is 300 rather than the
+        # usual 330 because 1S whoops sag well below 3.3V under punch.
+        set vbat_max_cell_voltage = 440
+        set vbat_full_cell_voltage = 435
+        set vbat_warning_cell_voltage = 345
+        set vbat_min_cell_voltage = 300
+
+        # 0.4s guard before failsafe stage 2. The 1.5s outdoor value is 1.5s of
+        # the craft holding its last stick input, which indoors is a runaway
+        # across the room.
+        set failsafe_delay = 4
+    #$ OPTION END
+#$ OPTION_GROUP END
+
+# Link-quality and dBm alarms both belong to the ELRS link, not to the video
+# system, so both live in this group. LQ is the percentage of packets received:
+# at a low packet rate the same LQ figure means far fewer packets per second and
+# there is much less margin left, so the alarm threshold rises as the packet rate
+# falls (LQ 80 at 500Hz is still 400 packets/sec; at 50Hz it is 40).
+#$ OPTION_GROUP BEGIN: (EXCLUSIVE) ELRS packet rate (sets osd_rssi_dbm_alarm, osd_link_quality_alarm)
     #$ OPTION BEGIN (UNCHECKED): 50Hz (-115dBm sensitivity)
         set osd_rssi_dbm_alarm = -107
+        set osd_link_quality_alarm = 85
     #$ OPTION END
     #$ OPTION BEGIN (UNCHECKED): 100Hz / 150Hz (-112dBm sensitivity)
         set osd_rssi_dbm_alarm = -104
+        set osd_link_quality_alarm = 80
     #$ OPTION END
     #$ OPTION BEGIN (UNCHECKED): 250Hz (-108dBm sensitivity)
         set osd_rssi_dbm_alarm = -100
+        set osd_link_quality_alarm = 75
     #$ OPTION END
     #$ OPTION BEGIN (CHECKED): 500Hz (-105dBm sensitivity)
         set osd_rssi_dbm_alarm = -97
+        set osd_link_quality_alarm = 70
     #$ OPTION END
 #$ OPTION_GROUP END
 
@@ -144,7 +228,6 @@ set thr_mid = 30
         set osd_units = METRIC
         set osd_warn_bitmask = 319485
         set osd_rssi_alarm = 20
-        set osd_link_quality_alarm = 80
         set osd_rsnr_alarm = 4
         set osd_alt_alarm = 100
         set osd_distance_alarm = 0
@@ -257,7 +340,6 @@ set thr_mid = 30
         set osd_units = METRIC
         set osd_warn_bitmask = 503805
         set osd_rssi_alarm = 20
-        set osd_link_quality_alarm = 70
         set osd_rsnr_alarm = 4
         set osd_alt_alarm = 100
         set osd_distance_alarm = 0
