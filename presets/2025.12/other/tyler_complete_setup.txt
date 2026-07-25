@@ -6,11 +6,11 @@
 #$ AUTHOR: Tyler Cash
 #$ DESCRIPTION: Everything I apply to a craft except the VTX table, bundled into one preset with checkboxes for the parts that vary by hardware, so setting up a new craft is one preset instead of four. VTX stays separate (its own category/preset) since VTX power tables are per-VTX-chip, not something that fits an OTHER-category checkbox here.
 #$ DESCRIPTION: AUX layout, kept consistent across my fleet so one radio switch/pot arrangement drives every craft the same way (mirrors my working AIR65 R): AUX1 = Arm, AUX3 = LEDLOW, AUX4 = VTX Pit Mode, AUX5 = 3-position flight-mode switch (low = Acro/off, mid = Angle, high = Horizon), AUX7 = Launch Control, AUX8 = Turtle (flip over after crash), AUX9 = Beeper Mute. Only which physical control feeds each channel is a radio-side concern.
-#$ DESCRIPTION: The BEEPER mode is deliberately left unassigned to any switch - a manual beeper-on-a-switch is what fired the DShot beacon and blocked arming (see the beeper note below), so it stays off. Launch Control on AUX7 is unusual on a light cinematic whoop; it is carried here because it is in my working config - drop it or swap in another mode per craft if it is not wanted.
+#$ DESCRIPTION: The BEEPER mode is deliberately left unassigned to any switch - a manual beeper-on-a-switch is what fired the DShot beacon and blocked arming (see the beeper note below), so it stays off. Launch Control on AUX7 is now deliberately configured rather than just mapped, with different settings per craft class: gentle and angle-limited indoors (PITCHONLY, 20 degree limit) versus a hard launch outdoors (NORMAL, 45 degree limit).
 #$ DESCRIPTION: Feature flags are reset to their firmware defaults first, then my standard set enabled on top, so this always leaves a fully known feature configuration. Deliberately excludes anything board/wiring-specific (UART assignments, SPI bus numbers, RX_SPI/RX_SERIAL, RSSI_ADC beyond the standard ELRS/CRSF assumption) since those vary craft to craft - see the individual per-topic presets in this repo for the full reasoning on each exclusion.
 #$ DESCRIPTION: Rates are ACTUAL type, converted from my blackbox-validated QUICK rates on the Air65. Everything that genuinely varies between a 1S indoor whoop and an outdoor freestyle craft - max rate, expo, throttle curve, battery cell voltages and failsafe guard time - now sits in the Craft class option group rather than being shared fleet-wide. Center sensitivity (70 deg/s roll/pitch, 90 yaw) is held constant across both classes, since that is the validated number and the part that carries muscle memory between crafts. Freestyle is the default selection.
 #$ DESCRIPTION: Beeper conditions are left at firmware default and the DShot beacon fires on RX_LOST/RX_SET. The arming block I hit earlier was caused by the BEEPER *mode* sitting on a switch (held on, it beeps RX_SET continuously and the beacon arming-guard then blocks arming - a stuck "BEACON ON" that also prevents arming into turtle mode). The fix is just to keep the BEEPER mode off any switch, which this preset does (see the aux block).
-#$ DESCRIPTION: Rates, thr_mid and thr_expo are rate-profile scoped rather than global, so the preset selects rate profile 0 explicitly before writing them and leaves it selected. Fly on rate profile 0, otherwise the rates in this preset are not the ones in effect.
+#$ DESCRIPTION: Rates, thr_mid and thr_expo are rate-profile scoped, and launch control, sag compensation and turtle strength are PID-profile scoped, so the preset selects rate profile 0 and PID profile 0 explicitly before writing them and leaves both selected. Fly on rate profile 0 / PID profile 0, otherwise the values in this preset are not the ones in effect.
 #$ DESCRIPTION: small_angle is set to 180 fleet-wide so every craft will arm at any attitude - the 25 degree default blocks arming off anything but a flat surface, which is a nuisance indoors and after a crash on a slope.
 #$ DESCRIPTION: Choose your craft class, ELRS packet rate and display system below - all three option groups apply independently of each other.
 
@@ -88,7 +88,7 @@ beacon RX_SET
 #   aux 4  LEDLOW     AUX3 low
 #   aux 5  CRASHFLIP  AUX8 high  - turtle / flip over after crash
 #   aux 6  VTXPITMODE AUX4 low
-#   aux 7  LAUNCHCTL  AUX7 mid   - unusual on a whoop; remove if unintended
+#   aux 7  LAUNCHCTL  AUX7 mid   - configured per craft class, see option group
 #   aux 8  BEEPERMUTE AUX9 low
 #   aux 9  (blank)
 aux 0 0 0 1900 2100 0 0
@@ -114,12 +114,15 @@ aux 19 0 0 900 900 0 0
 
 # rates (ACTUAL type) - common settings, then per-craft-class values below
 #
-# IMPORTANT: rates, thr_mid and thr_expo are RATE-PROFILE scoped, not global.
-# Without an explicit selector they land in whichever rate profile happened to be
-# active when the preset was applied, so applying this twice on two crafts could
-# silently write two different profiles. Rate profile 0 is selected explicitly
-# here and left selected afterwards. Fly on rate profile 0.
+# IMPORTANT: rates, thr_mid and thr_expo are RATE-PROFILE scoped, and the launch
+# control and sag compensation settings further down are PID-PROFILE scoped -
+# none of them are global. Without an explicit selector they land in whichever
+# profile happened to be active when the preset was applied, so applying this
+# twice on two crafts could silently write two different profiles. Both profiles
+# are selected explicitly here and left selected afterwards. Fly on rate
+# profile 0 / PID profile 0.
 rateprofile 0
+profile 0
 
 # Center sensitivity is held at 70 deg/s roll/pitch and 90 deg/s yaw across BOTH
 # craft classes - that is the blackbox-validated number from the Air65 and it is
@@ -131,7 +134,7 @@ set roll_rc_rate = 7
 set pitch_rc_rate = 7
 set yaw_rc_rate = 9
 
-#$ OPTION_GROUP BEGIN: (EXCLUSIVE) Craft class (rates, throttle curve, battery, failsafe timing)
+#$ OPTION_GROUP BEGIN: (EXCLUSIVE) Craft class (rates, throttle, battery, failsafe, launch control, turtle)
     #$ OPTION BEGIN (CHECKED): Freestyle / outdoor - LiPo, 3.5in and up
         # 900 deg/s roll/pitch, 750 yaw. Yaw raised from the Air65's 650 so
         # coordinated turns and spins keep up with the roll/pitch rate. Expo
@@ -163,6 +166,29 @@ set yaw_rc_rate = 9
         # 1.5s guard before failsafe stage 2. Outdoors this rides out brief link
         # dropouts rather than dropping the craft on every glitch.
         set failsafe_delay = 15
+
+        # Sag compensation off. A 4S LiPo sags far less under load than a 1S
+        # pack, so the compensation the whoop needs is not worth the added
+        # throttle-to-thrust nonlinearity here. Set explicitly so switching back
+        # from Indoor does not leave 80 in place.
+        set vbat_sag_compensation = 0
+
+        # Turtle mode. Big props on a 3.5in need real authority to roll the
+        # craft back over, but 100 on a heavy build can flip it straight past
+        # upright and back onto its back. 75 is the starting point - raise it if
+        # it will not turn over, lower it if it overshoots.
+        set crashflip_motor_percent = 75
+
+        # Launch control, configured for a hard launch off the ground. NORMAL
+        # holds pitch and roll rather than pitch alone, which is what you want
+        # when the launch is the start of a run. 25% trigger sits below hover
+        # throttle on a powerful build. 45 degree angle limit still allows a
+        # deliberately angled launch.
+        set launch_control_mode = NORMAL
+        set launch_trigger_allow_reset = ON
+        set launch_trigger_throttle_percent = 25
+        set launch_angle_limit = 45
+        set launch_control_gain = 40
     #$ OPTION END
     #$ OPTION BEGIN (UNCHECKED): Indoor - 1S LiHV whoop (Air65)
         # 600 deg/s roll/pitch, 500 yaw. Down from 900/650: full rate is simply
@@ -195,6 +221,30 @@ set yaw_rc_rate = 9
         # the craft holding its last stick input, which indoors is a runaway
         # across the room.
         set failsafe_delay = 4
+
+        # Sag compensation. 1S packs sag hard under punch, and without this the
+        # PID loop loses authority exactly when it is needed most. 80 matches the
+        # 1S whoop reference tune in this repo
+        # (presets/4.5/tune/whoop_ayyykayyy.txt).
+        set vbat_sag_compensation = 80
+
+        # Turtle mode at full strength. A ducted whoop has very little prop
+        # exposed to push against the floor, so it needs everything it has to
+        # roll back over - same value the whoop reference tune uses for its
+        # "stronger turtle mode" option.
+        set crashflip_motor_percent = 100
+
+        # Launch control, configured to be gentle indoors. PITCHONLY holds pitch
+        # only and leaves roll and yaw free, which is much less startling in a
+        # confined space than NORMAL. Trigger at 15% sits well below the ~30%
+        # hover point so it engages before the craft is light on the floor, and
+        # the 20 degree angle limit is the important one indoors - it stops a
+        # mis-angled launch rocketing into a wall.
+        set launch_control_mode = PITCHONLY
+        set launch_trigger_allow_reset = ON
+        set launch_trigger_throttle_percent = 15
+        set launch_angle_limit = 20
+        set launch_control_gain = 40
     #$ OPTION END
 #$ OPTION_GROUP END
 
