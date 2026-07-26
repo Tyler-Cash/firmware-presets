@@ -1,0 +1,41 @@
+#$ TITLE: Tyler's VX3.5 hardware (Borg Mini F7 / 2004 1850KV / 6S)
+#$ FIRMWARE_VERSION: 2025.12
+#$ CATEGORY: OTHER
+#$ STATUS: COMMUNITY
+#$ KEYWORDS: tyler, vx35, volador, 3.5, hardware, motor, esc, personal
+#$ AUTHOR: Tyler Cash
+#$ DESCRIPTION: The build-specific motor and ESC facts for my FlyFishRC Volador VX3.5: iFlight Borg Mini F7 60A stack, VCI Spark 2004 1850KV motors, 6S LiHV, HQProp T3.5x2.5x3. These are the only settings that genuinely cannot come from a community preset, because they describe the hardware rather than a tuning opinion.
+#$ DESCRIPTION: This preset deliberately sets NO PIDs and NO filters. Chris Rosser's AOS presets already cover both for this size on 2025.12 - apply presets/2025.12/filters/aos_rc/aos_3.5_filters.txt and presets/2025.12/tune/aos_rc/aos_3.5_tune.txt. Note that the AOS tune was developed on a 4S 3000KV build: peak motor RPM works out within about 8 percent of this 6S 1850KV setup (roughly 50k vs 47k), so it is a reasonable starting point, but it is a starting point and not a finished tune for this craft.
+#$ DESCRIPTION: ORDER OF APPLICATION MATTERS. The AOS tune sets vbat_sag_compensation to 100 in one of its options, while my complete-setup preset sets it to 0 for the freestyle craft class. Whichever is applied last wins. Decide which you want rather than letting apply order pick for you.
+#$ DESCRIPTION: BOTH option groups below are things I could not determine from the parts list and that you must confirm on the bench. motor_poles in particular is not cosmetic: RPM filtering derives notch frequencies from it, and the AOS filter preset that this build depends on will not filter correctly if it is wrong.
+#$ DESCRIPTION: To verify motor_poles - enable bidirectional DShot, then in Configurator's Motors tab spin a motor and compare the reported RPM against roughly (throttle percent x KV x pack voltage). If the reading is out by a factor of about 7/6 or 6/7, the pole count is wrong. To verify the DShot rate, start at the lower option and only move up once the motors run clean.
+#$ DESCRIPTION: Not set here because they are build choices rather than hardware facts: yaw_motors_reversed (props-in vs props-out) and any acc/mag calibration.
+
+#$ OPTION_GROUP BEGIN: (EXCLUSIVE) Motor pole count - VERIFY THIS
+    #$ OPTION BEGIN (CHECKED): 14 poles (12N14P - standard for 2004)
+        # Almost all modern 2004-class motors are 12N14P, i.e. 14 poles, and 14
+        # is the firmware default. Checked by default on that basis, NOT because
+        # I confirmed it for the VCI Spark 2004 specifically.
+        set motor_poles = 14
+    #$ OPTION END
+    #$ OPTION BEGIN (UNCHECKED): 12 poles (9N12P)
+        # Some smaller motors are 9N12P. Use this if the RPM readout in the
+        # Motors tab is consistently about 7/6 of what it should be with 14.
+        set motor_poles = 12
+    #$ OPTION END
+#$ OPTION_GROUP END
+
+#$ OPTION_GROUP BEGIN: (EXCLUSIVE) DShot rate for the Borg Mini 60A ESC
+    #$ OPTION BEGIN (CHECKED): DSHOT600
+        # Standard for a modern F7 stack with a 60A 4in1 and short signal runs,
+        # which is what this build is. Start here.
+        set motor_pwm_protocol = DSHOT600
+    #$ OPTION END
+    #$ OPTION BEGIN (UNCHECKED): DSHOT300
+        # More tolerant of signal integrity problems. Drop to this if bidir
+        # DShot RPM telemetry is intermittent or the motors stutter - a flaky
+        # RPM feed is worse than a slower update rate, because the RPM filter
+        # depends on it.
+        set motor_pwm_protocol = DSHOT300
+    #$ OPTION END
+#$ OPTION_GROUP END

@@ -135,7 +135,7 @@ set pitch_rc_rate = 7
 set yaw_rc_rate = 9
 
 #$ OPTION_GROUP BEGIN: (EXCLUSIVE) Craft class (rates, throttle, battery, failsafe, launch control, turtle)
-    #$ OPTION BEGIN (CHECKED): Freestyle / outdoor - LiPo, 3.5in and up
+    #$ OPTION BEGIN (CHECKED): Freestyle / outdoor - 6S LiHV, 3.5in (Volador VX3.5)
         # 900 deg/s roll/pitch, 750 yaw. Yaw raised from the Air65's 650 so
         # coordinated turns and spins keep up with the roll/pitch rate. Expo
         # dropped 0.88 -> 0.65: the very soft center that suits indoor hovering
@@ -155,15 +155,18 @@ set yaw_rc_rate = 9
         set thr_mid = 50
         set thr_expo = 0
 
-        # Standard LiPo cell voltages. Set explicitly rather than left to
-        # firmware defaults so that switching this option group back from Indoor
-        # actually restores them instead of leaving the LiHV values in place.
-        set vbat_max_cell_voltage = 430
-        set vbat_full_cell_voltage = 410
+        # 6S LiHV (GNB 22.8V 1100mAh). vbat_max_cell_voltage MUST be 440 here,
+        # not the 430 standard-LiPo value: cell count is detected as
+        # int(pack_voltage / vbat_max_cell_voltage) + 1, so a full 6S LiHV pack
+        # at 26.1V over 4.30 gives 6.07 and is detected as SEVEN cells, which
+        # makes every per-cell voltage reading, warning and OSD percentage wrong
+        # while still looking plausible. At 4.40 the same pack gives 5.93 -> 6S.
+        # 4S and 6S LiPo still detect correctly at 4.40, so auto-detect is left
+        # on rather than forced to 6 - that keeps a different pack size safe.
+        set vbat_max_cell_voltage = 440
+        set vbat_full_cell_voltage = 435
         set vbat_warning_cell_voltage = 350
         set vbat_min_cell_voltage = 330
-        # 0 = auto-detect cell count, which is correct here since the same craft
-        # may see different pack sizes.
         set force_battery_cell_count = 0
 
         # 1.5s guard before failsafe stage 2. Outdoors this rides out brief link

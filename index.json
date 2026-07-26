@@ -381,6 +381,7 @@
       "eachine",
       "ELRS",
       "emax",
+      "esc",
       "EVO",
       "expert",
       "express",
@@ -419,6 +420,7 @@
       "GPS_Rescue",
       "GTB339",
       "gyroflow",
+      "hardware",
       "HD",
       "HD video",
       "HDOSD",
@@ -468,6 +470,7 @@
       "mode",
       "mode_color",
       "modes",
+      "motor",
       "mountain surfing",
       "mouse fpv",
       "mr nice",
@@ -630,12 +633,14 @@
       "viper lite",
       "Viper Racing",
       "vista",
+      "volador",
       "Voltage",
       "vt5804",
       "vt5804bat",
       "vtx",
       "vtx table",
       "vtxtable",
+      "vx35",
       "Walksnail",
       "whoop",
       "whoop lite",
@@ -1259,7 +1264,7 @@
     },
     {
       "fullPath": "presets/2025.12/other/tyler_complete_setup.txt",
-      "hash": "a9f16433dd386f9a4b29f55891aec7aa9e5e8266855e8119a35f677194b28603",
+      "hash": "af90468426f2368f422ce4e2b1cdc5a4ecc06efd50a045984ac2f23e9f8e4ef2",
       "title": "Tyler's complete drone setup (modes, OSD, RC link, rates)",
       "firmware_version": [
         "2025.12"
@@ -1274,6 +1279,28 @@
         "rates",
         "features",
         "rc link",
+        "personal"
+      ],
+      "author": "Tyler Cash",
+      "priority": 0
+    },
+    {
+      "fullPath": "presets/2025.12/other/tyler_vx35_hardware.txt",
+      "hash": "a21d16e0e294fc40f44b06dc6360bcfef1416eb85ae9923fe75aeab1667d351b",
+      "title": "Tyler's VX3.5 hardware (Borg Mini F7 / 2004 1850KV / 6S)",
+      "firmware_version": [
+        "2025.12"
+      ],
+      "category": "OTHER",
+      "status": "COMMUNITY",
+      "keywords": [
+        "tyler",
+        "vx35",
+        "volador",
+        "3.5",
+        "hardware",
+        "motor",
+        "esc",
         "personal"
       ],
       "author": "Tyler Cash",
