@@ -12,7 +12,8 @@
 #$ DESCRIPTION: Beeper conditions are left at firmware default and the DShot beacon fires on RX_LOST/RX_SET. The arming block I hit earlier was caused by the BEEPER *mode* sitting on a switch (held on, it beeps RX_SET continuously and the beacon arming-guard then blocks arming - a stuck "BEACON ON" that also prevents arming into turtle mode). The fix is just to keep the BEEPER mode off any switch, which this preset does (see the aux block).
 #$ DESCRIPTION: Rates, thr_mid and thr_expo are rate-profile scoped, and launch control, sag compensation and turtle strength are PID-profile scoped, so the preset selects rate profile 0 and PID profile 0 explicitly before writing them and leaves both selected. Fly on rate profile 0 / PID profile 0, otherwise the values in this preset are not the ones in effect.
 #$ DESCRIPTION: small_angle is set to 180 fleet-wide so every craft will arm at any attitude - the 25 degree default blocks arming off anything but a flat surface, which is a nuisance indoors and after a crash on a slope.
-#$ DESCRIPTION: Choose your craft class, ELRS packet rate and display system below - all three option groups apply independently of each other.
+#$ DESCRIPTION: APPLY THIS PRESET LAST. Several settings here also appear in community tune presets - most notably vbat_sag_compensation, which the AOS 3.5 tune sets to 100 while the freestyle craft class here sets it to 0 - and whichever preset is applied last wins. Since the whole point of this preset is to leave a fully known configuration, applying it last makes it the authority rather than letting apply order decide silently. Recommended order for a fresh craft: filters preset, then tune preset, then per-craft hardware preset, then this one.
+#$ DESCRIPTION: Choose your craft class, ELRS packet rate and display system below - all three option groups apply independently of each other. Display defaults to HDZero, since that is what most of the fleet runs; switch to Analog NTSC for the Air65.
 
 # feature
 feature -RX_PPM
@@ -137,11 +138,17 @@ set yaw_rc_rate = 9
 #$ OPTION_GROUP BEGIN: (EXCLUSIVE) Craft class (rates, throttle, battery, failsafe, launch control, turtle)
     #$ OPTION BEGIN (CHECKED): Freestyle / outdoor - 6S LiHV, 3.5in (Volador VX3.5)
         # 900 deg/s roll/pitch, 750 yaw. Yaw raised from the Air65's 650 so
-        # coordinated turns and spins keep up with the roll/pitch rate. Expo
-        # dropped 0.88 -> 0.65: the very soft center that suits indoor hovering
-        # makes mid-stick flip and roll rates hard to place on a freestyle craft.
-        set roll_expo = 65
-        set pitch_expo = 65
+        # coordinated turns and spins keep up with the roll/pitch rate.
+        #
+        # Roll/pitch expo is back at 0.88 - the blackbox-validated Air65 value.
+        # It was briefly dropped to 0.65 on the theory that a softer center
+        # suits hovering more than freestyle, but with ACTUAL rates the
+        # endpoints are pinned and expo governs the whole middle of the range,
+        # so that change added ~63% more rotation at half stick and simply felt
+        # like too much. Reverted after sim testing. If you want to revisit it,
+        # move it a few points at a time (0.85, 0.82) rather than in one jump.
+        set roll_expo = 88
+        set pitch_expo = 88
         set yaw_expo = 77
         set roll_srate = 90
         set pitch_srate = 90
@@ -197,17 +204,18 @@ set yaw_rc_rate = 9
         set launch_control_gain = 40
     #$ OPTION END
     #$ OPTION BEGIN (UNCHECKED): Indoor - 1S LiHV whoop (Air65)
-        # 600 deg/s roll/pitch, 500 yaw. Down from 900/650: full rate is simply
-        # not usable in a room, and lowering max rate while holding center
-        # sensitivity at 70 gives finer stick resolution over the range actually
-        # flown indoors. Revert srate to 90/90/65 to get the old Air65 feel back.
-        # Expo stays high - the soft center is what makes indoor hovering easy.
+        # 900 deg/s roll/pitch, 650 yaw - the blackbox-validated Air65 numbers.
+        # These were briefly lowered to 600/500 on the reasoning that full rate
+        # is not usable in a room, but that was an untested opinion applied to a
+        # craft that already flew well, so it has been reverted. If you do want
+        # to try it, put the reduced set on a second rate profile and switch
+        # between them rather than overwriting the validated one.
         set roll_expo = 88
         set pitch_expo = 88
         set yaw_expo = 77
-        set roll_srate = 60
-        set pitch_srate = 60
-        set yaw_srate = 50
+        set roll_srate = 90
+        set pitch_srate = 90
+        set yaw_srate = 65
 
         # thr_expo flattens the curve around thr_mid (the Air65's ~30% hover
         # point) for finer hover control. Hover throttle depends on each craft's
@@ -284,7 +292,7 @@ set yaw_rc_rate = 9
 #$ OPTION_GROUP END
 
 #$ OPTION_GROUP BEGIN: (EXCLUSIVE) Display system
-    #$ OPTION BEGIN (UNCHECKED): HDZero (digital)
+    #$ OPTION BEGIN (CHECKED): HDZero (digital)
         set osd_units = METRIC
         set osd_warn_bitmask = 319485
         set osd_rssi_alarm = 20
@@ -397,7 +405,7 @@ set yaw_rc_rate = 9
         # 2025.12. The canvas size is negotiated from the displayport device
         # instead, so HDZero reports its own 53x20 canvas over MSP.
     #$ OPTION END
-    #$ OPTION BEGIN (CHECKED): Analog NTSC
+    #$ OPTION BEGIN (UNCHECKED): Analog NTSC
         set osd_units = METRIC
         set osd_warn_bitmask = 503805
         set osd_rssi_alarm = 20
