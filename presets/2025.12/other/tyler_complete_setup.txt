@@ -162,6 +162,9 @@ set yaw_rc_rate = 9
         set vbat_full_cell_voltage = 410
         set vbat_warning_cell_voltage = 350
         set vbat_min_cell_voltage = 330
+        # 0 = auto-detect cell count, which is correct here since the same craft
+        # may see different pack sizes.
+        set force_battery_cell_count = 0
 
         # 1.5s guard before failsafe stage 2. Outdoors this rides out brief link
         # dropouts rather than dropping the craft on every glitch.
@@ -216,6 +219,11 @@ set yaw_rc_rate = 9
         set vbat_full_cell_voltage = 435
         set vbat_warning_cell_voltage = 345
         set vbat_min_cell_voltage = 300
+        # Force 1S. A freshly charged LiHV cell sits at 4.35V, close enough to
+        # the 1S/2S detection boundary that auto-detect can call it 2S - which
+        # would halve every per-cell figure and make the voltage warnings and OSD
+        # percentage set above meaningless. Matches the 1S whoop reference tune.
+        set force_battery_cell_count = 1
 
         # 0.4s guard before failsafe stage 2. The 1.5s outdoor value is 1.5s of
         # the craft holding its last stick input, which indoors is a runaway

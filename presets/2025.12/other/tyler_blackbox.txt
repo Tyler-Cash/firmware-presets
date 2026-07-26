@@ -1,0 +1,45 @@
+#$ TITLE: Tyler's blackbox logging setup
+#$ FIRMWARE_VERSION: 2025.12
+#$ CATEGORY: OTHER
+#$ STATUS: COMMUNITY
+#$ KEYWORDS: tyler, blackbox, logging, log, debug, tuning, personal
+#$ AUTHOR: Tyler Cash
+#$ DESCRIPTION: Configures blackbox logging so that it is actually usable when I come to tune a craft. My complete-setup preset deliberately leaves logging alone, which meant every fresh flash left it on firmware defaults and I reconfigured by hand - and if I forgot, I flew a whole session and came back with nothing worth reading.
+#$ DESCRIPTION: Pick a logging mode below. The three options are mutually exclusive and each one writes all four settings, so switching between them fully replaces the previous mode rather than leaving a stale sample rate or debug mode behind.
+#$ DESCRIPTION: The per-field disables (blackbox_disable_gyro, blackbox_disable_rc and friends) are reset to defaults first via the INCLUDE below, so this preset always leaves a fully known logging configuration - same reset-then-set approach the feature flags use in my complete-setup preset. If you want to trim individual fields to save flash afterwards, apply the official Blackbox disable preset on top.
+#$ DESCRIPTION: All three options assume onboard SPI flash. If a craft logs to an SD card instead, change blackbox_device to SDCARD after applying.
+#$ INCLUDE: presets/4.3/other/reset_blackbox.txt
+
+#$ OPTION_GROUP BEGIN: (EXCLUSIVE) Logging mode
+    #$ OPTION BEGIN (UNCHECKED): Tuning session - high resolution, gyro debug
+        # 1/4 of the PID loop rate, which is enough resolution to see filter and
+        # D-term behaviour rather than just the general shape of a flight.
+        # GYRO_SCALED logs the scaled gyro trace, which is the one to look at
+        # when checking filtering and hunting noise. Costs flash quickly - this
+        # is a mode to switch on for a tuning session, not to leave enabled.
+        set blackbox_device = SPIFLASH
+        set blackbox_mode = NORMAL
+        set blackbox_sample_rate = 1/4
+        set debug_mode = GYRO_SCALED
+    #$ OPTION END
+    #$ OPTION BEGIN (CHECKED): Normal flying - low resolution
+        # 1/16 still captures rates, throttle, battery sag and the general shape
+        # of a flight, which is all I need for reviewing a pack or working out
+        # what happened in a crash, and it fits many packs onto onboard flash.
+        # debug_mode NONE because the debug trace is only worth its space when
+        # actively chasing something.
+        set blackbox_device = SPIFLASH
+        set blackbox_mode = NORMAL
+        set blackbox_sample_rate = 1/16
+        set debug_mode = NONE
+    #$ OPTION END
+    #$ OPTION BEGIN (UNCHECKED): Off - no logging
+        # Logging fully off. The remaining settings are still written so that
+        # switching back to a logging mode later starts from a known state
+        # rather than inheriting whatever this option left behind.
+        set blackbox_device = NONE
+        set blackbox_mode = NORMAL
+        set blackbox_sample_rate = 1/16
+        set debug_mode = NONE
+    #$ OPTION END
+#$ OPTION_GROUP END

@@ -362,6 +362,7 @@
       "davide",
       "davide fpv",
       "DDC",
+      "debug",
       "default",
       "defaults",
       "der_V",
@@ -600,6 +601,7 @@
       "tramp",
       "transmitter",
       "tune",
+      "tuning",
       "twig",
       "tx1600",
       "tx5m.1",
@@ -1235,8 +1237,29 @@
       "priority": 0
     },
     {
+      "fullPath": "presets/2025.12/other/tyler_blackbox.txt",
+      "hash": "ded30b539485e565dc944a418d7265f551d56f6462753c69420d242e36724492",
+      "title": "Tyler's blackbox logging setup",
+      "firmware_version": [
+        "2025.12"
+      ],
+      "category": "OTHER",
+      "status": "COMMUNITY",
+      "keywords": [
+        "tyler",
+        "blackbox",
+        "logging",
+        "log",
+        "debug",
+        "tuning",
+        "personal"
+      ],
+      "author": "Tyler Cash",
+      "priority": 0
+    },
+    {
       "fullPath": "presets/2025.12/other/tyler_complete_setup.txt",
-      "hash": "fc485702bc211104c159397507e5548e23fc4f1820f4e92f062cf610a5db7333",
+      "hash": "a9f16433dd386f9a4b29f55891aec7aa9e5e8266855e8119a35f677194b28603",
       "title": "Tyler's complete drone setup (modes, OSD, RC link, rates)",
       "firmware_version": [
         "2025.12"
