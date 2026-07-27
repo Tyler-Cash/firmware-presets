@@ -1264,7 +1264,7 @@
     },
     {
       "fullPath": "presets/2025.12/other/tyler_complete_setup.txt",
-      "hash": "592c5ccb861768ef7339179ccc494cf4f77c9d4332a90a2fd73bd76d8f8e4add",
+      "hash": "8a1e1e04bf674c6edcbc2c89a64d03521391121d4608eed7fcfafe855dbfdbcc",
       "title": "Tyler's complete drone setup (modes, OSD, RC link, rates)",
       "firmware_version": [
         "2025.12"
