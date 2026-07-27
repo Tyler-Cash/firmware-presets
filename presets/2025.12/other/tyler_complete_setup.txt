@@ -8,7 +8,7 @@
 #$ DESCRIPTION: AUX layout, kept consistent across my fleet so one radio switch/pot arrangement drives every craft the same way (mirrors my working AIR65 R): AUX1 = Arm, AUX3 = LEDLOW, AUX4 = VTX Pit Mode, AUX5 = 3-position flight-mode switch (low = Acro/off, mid = Angle, high = Horizon), AUX7 = Launch Control, AUX8 = Turtle (flip over after crash), AUX9 = Beeper Mute. Only which physical control feeds each channel is a radio-side concern.
 #$ DESCRIPTION: The BEEPER mode is deliberately left unassigned to any switch - a manual beeper-on-a-switch is what fired the DShot beacon and blocked arming (see the beeper note below), so it stays off. Launch Control on AUX7 is now deliberately configured rather than just mapped, with different settings per craft class: gentle and angle-limited indoors (PITCHONLY, 20 degree limit) versus a hard launch outdoors (NORMAL, 45 degree limit).
 #$ DESCRIPTION: Feature flags are reset to their firmware defaults first, then my standard set enabled on top, so this always leaves a fully known feature configuration. Deliberately excludes anything board/wiring-specific (UART assignments, SPI bus numbers, RX_SPI/RX_SERIAL, RSSI_ADC beyond the standard ELRS/CRSF assumption) since those vary craft to craft - see the individual per-topic presets in this repo for the full reasoning on each exclusion.
-#$ DESCRIPTION: Rates are ACTUAL type. Center sensitivity (120 deg/s roll/pitch, 90 yaw) and expo (0.55 roll/pitch, 0.77 yaw) are held constant across both craft classes - that is the part which carries muscle memory between crafts, and it is where a curve is actually flown. Only max rate differs (700 freestyle, 650 indoor), along with the throttle curve, battery cell voltages and failsafe guard time, all of which sit in the Craft class option group. Freestyle is the default selection.
+#$ DESCRIPTION: Rates are ACTUAL type. Center sensitivity (120 deg/s) and expo (0.55) are held constant across all three axes and both craft classes - that is the part which carries muscle memory, and it is where a curve is actually flown. Only max rate differs (700 freestyle, 650 indoor), along with the throttle curve, battery cell voltages and failsafe guard time, all of which sit in the Craft class option group. Freestyle is the default selection.
 #$ DESCRIPTION: Beeper conditions are left at firmware default and the DShot beacon fires on RX_LOST/RX_SET. The arming block I hit earlier was caused by the BEEPER *mode* sitting on a switch (held on, it beeps RX_SET continuously and the beacon arming-guard then blocks arming - a stuck "BEACON ON" that also prevents arming into turtle mode). The fix is just to keep the BEEPER mode off any switch, which this preset does (see the aux block).
 #$ DESCRIPTION: Rates, thr_mid and thr_expo are rate-profile scoped, and launch control, sag compensation and turtle strength are PID-profile scoped, so the preset selects rate profile 0 and PID profile 0 explicitly before writing them and leaves both selected. Fly on rate profile 0 / PID profile 0, otherwise the values in this preset are not the ones in effect.
 #$ DESCRIPTION: small_angle is set to 180 fleet-wide so every craft will arm at any attitude - the 25 degree default blocks arming off anything but a flat surface, which is a nuisance indoors and after a crash on a slope.
@@ -125,9 +125,9 @@ aux 19 0 0 900 900 0 0
 rateprofile 0
 profile 0
 
-# Center sensitivity is held at 120 deg/s roll/pitch and 90 deg/s yaw across BOTH
-# craft classes - it is what carries the muscle memory between crafts. Only max
-# rate and the throttle curve change per class.
+# Center sensitivity is held at 120 deg/s on ALL THREE AXES across BOTH craft
+# classes - it is what carries the muscle memory between crafts, and between
+# axes. Only max rate and the throttle curve change per class.
 #
 # Roll/pitch center was 70 for a long time, paired with expo 0.88. That curve was
 # effectively dead off center - 18 deg/s at 20% stick - which pushed you into
@@ -137,30 +137,41 @@ profile 0
 # lower expo together: raising one while leaving the other only slides the curve
 # up without changing its shape, which is why the earlier expo-only experiment in
 # ef71500 felt wrong and got reverted. 120/0.55 puts the ratio at 21x.
+#
+# Note that expo bites much harder on ACTUAL rates than on BETAFLIGHT rates - the
+# ACTUAL expo term is 5th-power, so it does almost nothing until late in the
+# throw and then arrives all at once. Do not port an expo number straight across
+# from someone's BETAFLIGHT-type preset; it will not mean the same thing.
 set rates_type = ACTUAL
 set quickrates_rc_expo = ON
 set roll_rc_rate = 12
 set pitch_rc_rate = 12
-set yaw_rc_rate = 9
+set yaw_rc_rate = 12
 
 #$ OPTION_GROUP BEGIN: (EXCLUSIVE) Craft class (rates, throttle, battery, failsafe, launch control, turtle)
     #$ OPTION BEGIN (CHECKED): Freestyle / outdoor - 6S LiHV, 3.5in (Volador VX3.5)
-        # 700 deg/s roll/pitch, 750 yaw. Down from 900: with the center fixed at
-        # 120 deg/s the old 900 top end was both unnecessary and the source of
-        # the "gets away from you" feel. Validated in the sim (Uncrashed) against
-        # the previous 70/900/0.88 set, back to back on the same lines.
+        # 700 deg/s on all three axes. Down from 900 roll/pitch: with the center
+        # fixed at 120 deg/s the old 900 top end was both unnecessary and the
+        # source of the "gets away from you" feel. Validated in the sim
+        # (Uncrashed) against the previous 70/900/0.88 set, back to back on the
+        # same lines.
         #
-        # Yaw is deliberately left untouched at 90 / 750 / 0.77 so this was a
-        # one-variable change. That does leave yaw softer through the middle than
-        # roll/pitch now - if coordinated turns or rolls with yaw mixed in start
-        # feeling out of step with each other, that mismatch is the first thing
-        # to look at, not the roll/pitch numbers.
+        # Yaw now matches roll/pitch exactly. It had been left on the old shape
+        # (90 / 750 / 0.77) as a deliberate one-variable change, which left it
+        # with a 38x endpoint-to-center ratio - the same defect just fixed on
+        # roll/pitch, and worse than all but two of the 30 community presets in
+        # this repo when their curves are evaluated into deg/s. Surveying those
+        # presets, roughly three quarters give yaw the SAME center sensitivity
+        # and the SAME expo as roll/pitch; max rate is the only parameter people
+        # commonly vary, and when they do it is lower about 3:1, never a softer
+        # curve with a higher ceiling. The old 750 yaw existed to "keep up with"
+        # a 900 roll/pitch that no longer exists.
         set roll_expo = 55
         set pitch_expo = 55
-        set yaw_expo = 77
+        set yaw_expo = 55
         set roll_srate = 70
         set pitch_srate = 70
-        set yaw_srate = 75
+        set yaw_srate = 70
 
         # Linear throttle. Flattening the curve around hover (as the indoor
         # option does) compresses the top half of the range, which makes
@@ -212,8 +223,10 @@ set yaw_rc_rate = 9
         set launch_control_gain = 40
     #$ OPTION END
     #$ OPTION BEGIN (UNCHECKED): Indoor - 1S LiHV whoop (Air65)
-        # 650 deg/s roll/pitch, 650 yaw. Center sensitivity and expo are shared
+        # 650 deg/s on all three axes. Center sensitivity and expo are shared
         # with Freestyle; only the top end is tamer here, and only slightly.
+        # Yaw already sat at 650 here, so matching it to roll/pitch cost nothing
+        # but the expo change.
         #
         # This is a second attempt at the "indoor should be tamer" idea that was
         # tried as 600/500 and reverted in ef71500. That attempt failed because
@@ -226,7 +239,7 @@ set yaw_rc_rate = 9
         # muscle memory stays shared and the 50 deg/s off the top is free.
         set roll_expo = 55
         set pitch_expo = 55
-        set yaw_expo = 77
+        set yaw_expo = 55
         set roll_srate = 65
         set pitch_srate = 65
         set yaw_srate = 65
