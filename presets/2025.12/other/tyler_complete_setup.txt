@@ -10,7 +10,7 @@
 #$ DESCRIPTION: Feature flags are reset to their firmware defaults first, then my standard set enabled on top, so this always leaves a fully known feature configuration. Deliberately excludes anything board/wiring-specific (UART assignments, SPI bus numbers, RX_SPI/RX_SERIAL, RSSI_ADC beyond the standard ELRS/CRSF assumption) since those vary craft to craft - see the individual per-topic presets in this repo for the full reasoning on each exclusion.
 #$ DESCRIPTION: Rates are ACTUAL type. Center sensitivity (120 deg/s) and expo (0.55) are held constant across all three axes and both craft classes - that is the part which carries muscle memory, and it is where a curve is actually flown. Only max rate differs (700 freestyle, 650 indoor), along with the throttle curve, battery cell voltages and failsafe guard time, all of which sit in the Craft class option group. Freestyle is the default selection.
 #$ DESCRIPTION: Beeper conditions are left at firmware default and the DShot beacon fires on RX_LOST/RX_SET. The arming block I hit earlier was caused by the BEEPER *mode* sitting on a switch (held on, it beeps RX_SET continuously and the beacon arming-guard then blocks arming - a stuck "BEACON ON" that also prevents arming into turtle mode). The fix is just to keep the BEEPER mode off any switch, which this preset does (see the aux block).
-#$ DESCRIPTION: Rates, thr_mid and thr_expo are rate-profile scoped, and launch control, sag compensation and turtle strength are PID-profile scoped, so the preset selects rate profile 0 and PID profile 0 explicitly before writing them and leaves both selected. Fly on rate profile 0 / PID profile 0, otherwise the values in this preset are not the ones in effect.
+#$ DESCRIPTION: Rates, thr_mid and thr_expo are rate-profile scoped, and launch control, sag compensation and turtle strength are PID-profile scoped, so the preset selects rate profile 0 and PID profile 0 explicitly before writing them and leaves both selected. Fly on rate profile 0 / PID profile 0, otherwise the values in this preset are not the ones in effect. Rate profile 1 is also written, as a PIO test set differing from profile 0 only in center sensitivity (100 vs 120 deg/s) - bind a switch to rate profile select to A/B them in the air.
 #$ DESCRIPTION: small_angle is set to 180 fleet-wide so every craft will arm at any attitude - the 25 degree default blocks arming off anything but a flat surface, which is a nuisance indoors and after a crash on a slope.
 #$ DESCRIPTION: APPLY THIS PRESET LAST. Several settings here also appear in community tune presets - most notably vbat_sag_compensation, which the AOS 3.5 tune sets to 100 while the freestyle craft class here sets it to 0 - and whichever preset is applied last wins. Since the whole point of this preset is to leave a fully known configuration, applying it last makes it the authority rather than letting apply order decide silently. Recommended order for a fresh craft: filters preset, then tune preset, then per-craft hardware preset, then this one.
 #$ DESCRIPTION: Choose your craft class, ELRS packet rate and display system below - all three option groups apply independently of each other. Display defaults to HDZero, since that is what most of the fleet runs; switch to Analog NTSC for the Air65.
@@ -121,7 +121,12 @@ aux 19 0 0 900 900 0 0
 # profile happened to be active when the preset was applied, so applying this
 # twice on two crafts could silently write two different profiles. Both profiles
 # are selected explicitly here and left selected afterwards. Fly on rate
-# profile 0 / PID profile 0.
+# profile 0 / PID profile 0 unless you are deliberately testing.
+#
+# Rate profile 1 is written too, inside each craft class - a PIO test set that
+# differs from profile 0 only in center sensitivity (100 vs 120 deg/s). Bind a
+# switch to rate profile select and A/B them on the same line; profile 0 is
+# still what gets left selected.
 rateprofile 0
 profile 0
 
@@ -180,6 +185,33 @@ set yaw_rc_rate = 12
         # little softness around hover without losing the top end.
         set thr_mid = 50
         set thr_expo = 0
+
+        # Rate profile 1 - PIO test set. Identical to profile 0 except center
+        # sensitivity, which drops 120 -> 100 deg/s. Reworking the curve in
+        # 381050e fixed oscillation on large inputs but moved it onto small
+        # ones, which is what a near-center loop-gain problem looks like: the
+        # old curve was too dead off center to oscillate there, and 120 gives
+        # small corrections enough authority to overshoot. This backs that off
+        # 17% while staying well clear of the old 70. Max rate, expo and the
+        # throttle curve are deliberately identical so a profile switch is a
+        # true one-variable comparison - note thr_mid/thr_expo have to be
+        # repeated here because they are rate-profile scoped, and without them
+        # profile 1 would silently fly a different throttle curve.
+        rateprofile 1
+        set rates_type = ACTUAL
+        set quickrates_rc_expo = ON
+        set roll_rc_rate = 10
+        set pitch_rc_rate = 10
+        set yaw_rc_rate = 10
+        set roll_expo = 55
+        set pitch_expo = 55
+        set yaw_expo = 55
+        set roll_srate = 70
+        set pitch_srate = 70
+        set yaw_srate = 70
+        set thr_mid = 50
+        set thr_expo = 0
+        rateprofile 0
 
         # 6S LiHV (GNB 22.8V 1100mAh). vbat_max_cell_voltage MUST be 440 here,
         # not the 430 standard-LiPo value: cell count is detected as
@@ -249,6 +281,29 @@ set yaw_rc_rate = 12
         # thrust-to-weight ratio, so re-check thr_mid per craft.
         set thr_mid = 30
         set thr_expo = 40
+
+        # Rate profile 1 - PIO test set, same idea as the Freestyle option:
+        # center sensitivity 120 -> 100 deg/s, everything else held identical,
+        # including this class's 650 max rate and its thr_mid 30 / thr_expo 40
+        # throttle curve. Repeating the throttle values matters more here than
+        # on Freestyle, whose curve happens to match the firmware default -
+        # without them, switching to profile 1 on the Air65 would change the
+        # throttle curve and the rates at the same time.
+        rateprofile 1
+        set rates_type = ACTUAL
+        set quickrates_rc_expo = ON
+        set roll_rc_rate = 10
+        set pitch_rc_rate = 10
+        set yaw_rc_rate = 10
+        set roll_expo = 55
+        set pitch_expo = 55
+        set yaw_expo = 55
+        set roll_srate = 65
+        set pitch_srate = 65
+        set yaw_srate = 65
+        set thr_mid = 30
+        set thr_expo = 40
+        rateprofile 0
 
         # 1S LiHV. Without these, cell-count detection and every battery warning
         # and OSD percentage are wrong on a LiHV pack. min is 300 rather than the
